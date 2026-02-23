@@ -8,7 +8,7 @@ RUN dotnet restore
 
 # Copia o restante dos arquivos e compila
 COPY . .
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish *.csproj -c Release -o /app/publish
 
 # Estágio de Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
