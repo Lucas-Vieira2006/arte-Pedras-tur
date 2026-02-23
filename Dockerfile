@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
 # Copia o arquivo de projeto e restaura as dependências
-COPY ["artePedrasTur.csproj", "./"]
-RUN dotnet restore "artePedrasTur.csproj"
+COPY ["artePedrasTur.api.csproj", "./"]
+RUN dotnet restore "artePedrasTur.api.csproj"
 
 # Copia o restante do código e compila
 COPY . .
@@ -19,4 +19,4 @@ COPY --from=build /app/publish .
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
 
-ENTRYPOINT ["dotnet", "artePedrasTur.dll"]
+ENTRYPOINT ["dotnet", "artePedrasTur.api.dll"]
