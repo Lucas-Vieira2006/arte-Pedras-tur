@@ -168,6 +168,9 @@ _Aguardo confirmação de disponibilidade._`;
                       <p className="small mb-0">
                         Buscamos na maioria dos hotéis do centro de Foz do Iguaçu. O horário
                         exato de saída será confirmado pela nossa equipe após a reserva.
+
+                        ATENÇÃO: O valor dos ingressos com meia entrada é calculado conforme a politica do local visitado, em sua maioria das vezes são 50% do valor do ingresso inteiro, mas em alguns casos pode ser diferente.
+                        
                       </p>
                     </div>
                   </div>
