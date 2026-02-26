@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import PasseioService from '../../services/passeioService';
+import PasseioService from '../../services/PasseioService';
 import PasseioCarousel from '../../components/public/PasseioCarousel';
 
 const PasseioDetalhe = () => {

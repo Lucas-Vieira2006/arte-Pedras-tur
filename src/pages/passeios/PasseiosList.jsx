@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import PasseioService from '../../services/passeioService';
+import PasseioService from '../../services/PasseioService';
 import PasseioCard from '../../components/public/PasseioCardPublic';
 
 const PasseiosList = () => {
