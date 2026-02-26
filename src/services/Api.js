@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://artepedrastur.onrender.com', // Verifique se a porta é essa mesma
+  baseURL: import.meta.env.VITE_API_URL || 'https://artepedrastur.onrender.com', // Verifique se a porta é essa mesma
 });
 
 api.interceptors.request.use(async (config) => {
