@@ -173,10 +173,10 @@ O local foi revitalizado em 2015, transformando-se em um complexo completo com a
   },
 
 },
-  {
+{
   id: 4,
-  nome: 'Dreamland Wonder Park',
-  slug: 'dreamland-wonder-park',
+  nome: 'Dreamland Park',
+  slug: 'dreamland-park',
   imagens: ["/images/DreamLand2.jpeg", 
             "/images/DreamLand1.jpeg", 
             "/images/DreamLand3.jpeg",
@@ -186,70 +186,212 @@ O local foi revitalizado em 2015, transformando-se em um complexo completo com a
             "/images/Maravilhas1.jpeg", 
             "/images/MotorShow1.jpeg",       
           ],
-  categoria: 'Entretenimento / Família / Aventura',
+  categoria: 'Entretenimento / Família / Cultura / Aventura',
   local: 'Rodovia das Cataratas, KM 10 - Jardim Esmeralda',
-  distanciaCentro: 'Aproximadamente 20km (25-30 minutos de carro)',
-  duracao: '5 a 8 horas (Recomenda-se dia inteiro para aproveitar todas as atrações)',
-  horarios: 'Terça a Domingo, das 10h às 18h (Feriados: 09h às 19h - Fechado às segundas)',
-  melhorHorario: 'Entre 10h e 11h para pegar os brinquedos principais com filas mínimas.',
-  estacionamento: 'Privativo do parque (R$ 20,00 dia inteiro - capacidade para 500 veículos)',
-  acessibilidade: 'Parcialmente acessível. 70% das atrações adaptadas, banheiros especiais e aluguel de cadeiras de rodas elétricas no local.',
-  curiosidade: 'O Wonder Park foi construído sobre uma antiga pedreira natural transformada em cenário temático. A montanha-russa "Catarata Rush" usa o desnível original do terreno para criar quedas de 45 metros de altura.',
-  
-  descricao: `O Dreamland Wonder Park é mais que um parque de diversões - é um universo paralelo onde a imaginação ganha vida em escala épica. Dividido em 6 reinos temáticos interconectados, o parque oferece uma jornada que começa na Era dos Dinossauros e termina no Futuro Intergaláctico.
+  distanciaCentro: 'Aproximadamente 12 km do centro de Foz do Iguaçu (15–20 minutos de carro)',
+  duracao: '3 a 6 horas (depende das atrações escolhidas)',
+  horarios: 'Terça a Domingo, geralmente das 9h às 18h (horários podem variar por atração e temporada)',
+  melhorHorario: 'Logo na abertura (9h) para evitar filas, principalmente no Ice Bar e Museu de Cera.',
+  estacionamento: 'Estacionamento no local (pago, valores variam por temporada)',
+  acessibilidade: 'Parcialmente acessível. A maioria das áreas possui rampas e circulação adaptada, com banheiros acessíveis.',
+  curiosidade: 'O complexo reúne várias atrações temáticas independentes no mesmo espaço, permitindo montar um roteiro personalizado conforme o perfil do visitante.',
 
-Ao passar pelos portões Art Déco inspirados na Belle Époque, você é recebido por uma avenida principal com fontes coreografadas e música ambiente que muda conforme você avança entre os reinos. Cada área tem sua própria identidade: na "Floresta Encantada", brinquedos suaves para crianças pequenas são escondidos entre casas de cogumelo e riachos artificiais; no "Cânion Selvagem", montanhas-russas de madeira serpenteiam entre formações rochosas artificiais que parecem naturais.
+  descricao: `O Dreamland Foz do Iguaçu é um complexo turístico temático que reúne diversas atrações em um único local, combinando entretenimento, cultura, experiências imersivas e lazer para todas as idades. O espaço é ideal para famílias, casais e grupos que desejam conhecer múltiplos atrativos sem precisar se deslocar para diferentes regiões da cidade.
 
-O ponto central é o icônico carrossel gigante "Volta ao Mundo", com 12 metros de altura e 60 animais esculpidos à mão por artesãos europeus. À noite, o espetáculo "Luzes do Wonder" transforma todo o parque em um caleidoscópio de cores sincronizadas com fogos de artifício musicais.`,
+O complexo abriga museus temáticos, experiências sensoriais e atrações interativas. Entre os destaques estão o Museu de Cera, com réplicas realistas de celebridades e personagens históricos; o Ice Bar, um bar totalmente feito de gelo, com temperaturas abaixo de zero; o Vale dos Dinossauros, com réplicas animatrônicas em tamanho real; além de atrações educativas e culturais que abordam ciência, história e curiosidades do mundo.
+
+A visitação é organizada por ingressos individuais ou combos promocionais, permitindo que o visitante escolha quais atrações deseja conhecer. O espaço conta com estrutura de apoio, lojas temáticas, áreas de descanso e opções de alimentação, tornando o passeio prático e confortável.`,
 
   oqueEncontrar: [
-    'Montanha-russa "Catarata Rush" - maior queda livre do Sul do Brasil (45 metros)',
-    'Roda-gigante "Olho do Mundo" - 60 metros de altura com cabines climatizadas',
-    'Carrossel gigante "Volta ao Mundo" - obra de arte mecânica com 60 animais esculpidos à mão',
-    'Reino Subaquático "Atlântida" - aquário túnel com 500 espécies e brinquedos aquáticos',
-    'Vila dos Dinossauros - área interativa com robôs animatrônicos em escala real',
-    'Castelo dos Espelhos - labirinto infinito com efeitos de luz e som',
-    'Cinema 8D "Viagem ao Centro da Terra" - experiência multisensorial com 6 efeitos especiais',
-    'Torre de queda livre "Trovão dos Deuses" - 30 segundos de adrenalina pura'
+    'Museu de Cera Dreamland – estátuas hiper-realistas de celebridades, personagens e figuras históricas',
+    'Ice Bar Iguazú – bar temático feito de gelo, com roupas térmicas inclusas',
+    'Vale dos Dinossauros – percurso ao ar livre com dinossauros animatrônicos em tamanho real',
+    'Maravilhas do Mundo – réplicas de monumentos famosos em escala reduzida',
+    'Eco Park Foz – espaço com animais, trilhas e atividades educativas',
+    'Dreams Motor Show – exposição de motos, bar temático e ambiente rock’n’roll'
   ],
 
   servicosExtras: [
-    'Fast Pass Premium - acesso prioritário ilimitado a todas as atrações principais',
-    'Tour Backstage - visita aos bastidores da manutenção e controle das montanhas-russas',
-    'Experiência VIP "Noite no Parque" - pernoite em tendas temáticas dentro do Wonder Park',
-    'Workshop "Engenheiro por um Dia" - crianças montam e testam modelos de brinquedos',
-    'Aluguel de GoPro Hero - câmera para capturar POV das atrações radicais',
-    'Cabanas Premium - espaço privativo com mesa, frigobar e atendimento dedicado',
-    'Fotografia "Momento Wonder" - fotógrafo profissional acompanha seu grupo por 2 horas'
+    'Ingressos combo com desconto para múltiplas atrações',
+    'Fotografia profissional em cenários temáticos',
+    'Lojas de souvenirs e produtos temáticos',
+    'Eventos corporativos e visitas em grupo mediante agendamento',
+    'Área para alimentação com lanchonetes e restaurante temático',
+    'Estacionamento no local'
   ],
 
   documentos: [
     'Documento com foto para compra de ingressos (RG, CNH ou Passaporte).',
-    'Para atrações radicais: assinatura do termo de responsabilidade (maiores de 14 anos).',
-    'Crianças até 12 anos: devem estar acompanhadas por responsável maior de 18 anos.',
-    'Estudantes: carteirinha válida com data de expedição visível (desconto de 30%).',
-    'Gestantes: atestado médico autorizando acesso a atrações suaves.'
+    'Crianças devem estar acompanhadas por responsável legal.',
+    'Estudantes: carteirinha válida para desconto, conforme política vigente.',
+    'Descontos para moradores da região podem ser solicitados mediante comprovação.',
+    'Ingressos adquiridos conosco devem ser apresentados no celular ou impressos.'
   ],
 
   dicas: [
-    'Baixe o app "Wonder Guide" - mostra tempos de fila em tempo real e cria roteiro personalizado.',
-    'Comece pelo fundo do parque - a maioria dos visitantes inicia pelas atrações da entrada.',
-    'O período das 12h às 14h tem as menores filas - muitos estão almoçando.',
-    'Use tênis com solado antiderrapante - alguns brinquedos molham os pés intencionalmente.',
-    'Guarde pertences nos lockers antes das atrações radicais - itens voam nas inversões.',
-    'O show noturno começa às 17h30 - reserve 30 minutos antes para garantir boa visão.',
-    'Compre o "Pulseira Alimentação" - R$ 40,00 para 5 créditos em qualquer lanchonete.',
-    'Procure os "Easter Eggs" escondidos - há 12 esculturas secretas que dão prêmios se encontradas.',
-    'Às quartas-feiras há "Magic Hours" - o parque abre 1 hora antes para hóspedes dos hotéis parceiros.'
+    'Compre o ingresso combo — sai mais barato do que comprar atrações separadas.',
+    'Comece pelo Museu de Cera e Ice Bar, que costumam ter mais fila.',
+    'Use roupas confortáveis e calçados fechados para caminhar pelo Vale dos Dinossauros.',
+    'Leve uma blusa extra por causa do contraste de temperatura do Ice Bar.',
+    'Reserve pelo menos 3 horas para aproveitar com calma.',
+    'Evite horários de pico (11h às 15h) em alta temporada.',
+    'Verifique a programação de eventos no Dreams Motor Show.',
+    'Chegue cedo em feriados e fins de semana.',
+    'Leve celular carregado para fotos — os cenários rendem ótimos registros.'
   ],
 
   infraestrutura: {
-    wifi: 'Rede "WonderNet" gratuita em todo parque com pontos de recarga USB nas áreas de descanso.',
-    banheiros: '12 complexos sanitários temáticos (incluindo 4 familiares com fraldário e microondas).',
-    alimentação: '6 restaurantes temáticos (incluindo opção vegetariana e sem glúten), 15 lanchonetes, 8 quiosques de sorvete artesanal.',
-    seguranca: '150 monitores uniformizados, 8 postos de primeiros socorros, sistema de alto-falantes em toda área, câmeras com reconhecimento facial.',
-    estacionamento: 'Asfaltado e iluminado, com van gratuita que leva até a entrada principal a cada 10 minutos.',
-    acessibilidade: 'Mapa tátil na entrada, 28 atrações adaptadas, banheiros com portas automáticas, aluguel de cadeiras de rodas e scooters elétricas.'
+    wifi: 'Disponível em áreas específicas do complexo.',
+    banheiros: 'Banheiros distribuídos pelas atrações, incluindo opções acessíveis.',
+    alimentação: 'Lanchonetes, cafés e bar temático no Dreams Motor Show.',
+    seguranca: 'Equipe de apoio, monitoramento por câmeras e controle de acesso nas atrações.',
+    estacionamento: 'Área própria no local, com vagas para carros e ônibus de turismo.',
+    acessibilidade: 'Rampas de acesso, circulação ampla e banheiros adaptados em boa parte das atrações.'
+  }
+},
+
+{
+  id: 19,
+  nome: 'Kattamaran',
+  slug: 'kattamaran-foz-do-iguacu',
+  imagens: [
+    "/images/Kattamaran1.jpeg",
+    "/images/Kattamaran2.jpeg",
+  ],
+  categoria: 'Passeio Náutico / Natureza / Romântico / Experiência',
+  local: 'Marco das Três Fronteiras – Rio Iguaçu / Rio Paraná',
+  distanciaCentro: 'Aproximadamente 7 km do centro de Foz do Iguaçu (10–15 minutos de carro)',
+  duracao: '1h30 a 2h30 (dependendo do tipo de passeio: diurno, pôr do sol ou com jantar)',
+  horarios: 'Saídas em horários específicos, com maior oferta no fim da tarde e à noite (verificar agenda por temporada)',
+  melhorHorario: 'Passeio ao pôr do sol para vista panorâmica do encontro dos rios e das três fronteiras.',
+  estacionamento: 'Estacionamento no local (pago, com vagas limitadas)',
+  acessibilidade: 'Acesso parcialmente adaptado; é recomendado consultar a operadora para necessidades específicas.',
+  curiosidade: 'Durante o passeio, é possível visualizar o encontro dos rios Iguaçu e Paraná, além de pontos da tríplice fronteira entre Brasil, Argentina e Paraguai.',
+
+  descricao: `O passeio de Kattamaran em Foz do Iguaçu é uma experiência náutica diferenciada que permite navegar pelos rios que formam a tríplice fronteira entre Brasil, Argentina e Paraguai. A bordo de um catamarã moderno, o visitante aprecia paisagens naturais, o encontro dos rios Iguaçu e Paraná e vistas panorâmicas de pontos históricos e turísticos da região.
+
+O passeio é guiado, com explicações sobre a geografia, a história local e curiosidades sobre a fronteira. Dependendo do horário escolhido, a experiência pode incluir navegação diurna, pôr do sol ou versão noturna com jantar e música ao vivo. O pôr do sol no rio é um dos momentos mais procurados, proporcionando um cenário natural ideal para fotos e experiências românticas.
+
+A embarcação oferece estrutura confortável, com áreas cobertas e descobertas, serviço de bar e, em algumas modalidades, refeição completa. É um passeio indicado tanto para casais quanto para famílias que buscam uma atividade tranquila, com foco em contemplação, lazer e experiência cultural.`,
+
+  oqueEncontrar: [
+    'Navegação pelo encontro dos rios Iguaçu e Paraná',
+    'Vista panorâmica da tríplice fronteira (Brasil, Argentina e Paraguai)',
+    'Passeio guiado com informações históricas e geográficas',
+    'Opção de passeio ao pôr do sol',
+    'Versão noturna com jantar a bordo (em datas específicas)',
+    'Bar e serviço de bebidas durante o passeio'
+  ],
+
+  servicosExtras: [
+    'Passeio com jantar incluso (modalidade especial)',
+    'Serviço de bar a bordo',
+    'Pacotes românticos para casais (datas comemorativas)',
+    'Agendamento para grupos e eventos privados',
+    'Fotografia profissional (conforme disponibilidade)',
+    'Translado opcional mediante contratação'
+  ],
+
+  documentos: [
+    'Documento com foto para embarque (RG, CNH ou Passaporte).',
+    'Crianças devem estar acompanhadas por responsável legal.',
+    'Ingressos adquiridos conosco devem ser apresentados no celular ou impressos.',
+    'Chegar com antecedência mínima de 30 minutos para check-in.',
+    'Para passeios com jantar: informar restrições alimentares no momento da compra.'
+  ],
+
+  dicas: [
+    'Reserve com antecedência, principalmente para o pôr do sol.',
+    'Leve um agasalho leve para o período noturno no rio.',
+    'Chegue cedo para escolher melhor lugar no convés.',
+    'Evite marcar outro compromisso logo após o passeio — atrasos podem ocorrer.',
+    'Use protetor solar nos passeios diurnos.',
+    'Celular ou câmera com bateria cheia para fotos do pôr do sol.',
+    'Confirme se o passeio inclui jantar ou apenas bebidas.',
+    'Em dias de chuva, consulte a política de reagendamento.'
+  ],
+
+  infraestrutura: {
+    wifi: 'Não disponível a bordo.',
+    banheiros: 'Banheiros disponíveis na embarcação.',
+    alimentação: 'Serviço de bar e opção de jantar em passeios específicos.',
+    seguranca: 'Coletes salva-vidas, tripulação treinada e normas de segurança náutica.',
+    estacionamento: 'Área de estacionamento próxima ao local de embarque.',
+    acessibilidade: 'Acesso limitado para cadeiras de rodas; consultar previamente a operadora.'
+  }
+},
+
+{
+  id: 20,
+  nome: 'Wonder Park',
+  slug: 'wonder-park',
+  imagens: [
+    "/images/WonderPark1.jpeg",
+    "/images/Showdasaguas1.jpeg",
+    "/images/Lumina1.webp",
+    "/images/Moviecars.png",
+   
+  ],
+  categoria: 'Entretenimento / Família / Cultura / Noite',
+  local: 'Rodovia das Cataratas, KM 10 - Foz do Iguaçu, PR',
+  distanciaCentro: 'Aproximadamente 12 km do centro de Foz do Iguaçu (15–20 minutos de carro)',
+  duracao: '2 a 4 horas (ideal para visita no período da tarde e noite)',
+  horarios: 'Horários variam por atração; funcionamento concentrado no período da tarde e noite (verificar agenda por temporada)',
+  melhorHorario: 'Início da noite para pegar o Show das Águas e seguir para as atrações noturnas.',
+  estacionamento: 'Estacionamento no local (pago, valores variam conforme a temporada)',
+  acessibilidade: 'Parcialmente acessível. A maioria das áreas possui rampas e circulação adaptada, com banheiros acessíveis.',
+  curiosidade: 'O complexo é conhecido por unir atrações noturnas imersivas, cenários cinematográficos e um dos shows de águas dançantes mais impactantes da região.',
+
+  descricao: `O Wonder Park Foz do Iguaçu é um complexo de entretenimento temático voltado principalmente para experiências noturnas e imersivas. O espaço reúne atrações que combinam cenografia cinematográfica, espetáculo de águas dançantes, ambientes instagramáveis e experiências sensoriais ao ar livre, sendo uma excelente opção de passeio para famílias, casais e grupos.
+
+Entre os destaques estão o Movie Cars, um museu temático com cenários e veículos icônicos do cinema e da televisão; o Show das Águas, um espetáculo noturno com fontes coreografadas, projeções, luzes e trilha sonora; e o Lumina Park, um percurso ao ar livre com instalações artísticas iluminadas, ideal para caminhadas noturnas e fotos.
+
+O complexo permite que o visitante adquira ingressos individuais ou combos, montando seu próprio roteiro. A estrutura é organizada para visitação noturna, com áreas de descanso, alimentação e circulação segura, proporcionando uma experiência visualmente marcante e diferente dos parques tradicionais.`,
+
+  oqueEncontrar: [
+    'Movie Cars – cenários temáticos e veículos icônicos do cinema e da TV',
+    'Show das Águas – espetáculo noturno de fontes coreografadas com luzes e música',
+    'Lumina Park – percurso ao ar livre com instalações artísticas iluminadas',
+    'Cenários instagramáveis e ambientes temáticos para fotos',
+    'Lojas de souvenirs temáticos',
+    'Espaços de convivência e descanso'
+  ],
+
+  servicosExtras: [
+    'Ingressos combo com desconto para múltiplas atrações',
+    'Fotografia profissional em cenários temáticos',
+    'Lojas de souvenirs e produtos temáticos',
+    'Eventos corporativos e visitas em grupo mediante agendamento',
+    'Lanchonetes e pontos de alimentação no complexo',
+    'Estacionamento no local'
+  ],
+
+  documentos: [
+    'Documento com foto para compra de ingressos (RG, CNH ou Passaporte).',
+    'Crianças devem estar acompanhadas por responsável legal.',
+    'Estudantes: apresentação de carteirinha válida para desconto, conforme política vigente.',
+    'Ingressos comprados conosco devem ser apresentados no celular ou impressos.',
+    'Descontos regionais podem exigir comprovante de residência.'
+  ],
+
+  dicas: [
+    'Priorize o Show das Águas no horário marcado para não perder o espetáculo.',
+    'Compre o combo de ingressos para economizar.',
+    'Leve bateria extra para o celular — os cenários rendem muitas fotos.',
+    'Use calçados confortáveis para caminhar pelo Lumina Park.',
+    'Chegue com antecedência em fins de semana e feriados.',
+    'Considere jantar antes ou depois do passeio para evitar filas nas lanchonetes.',
+    'Confira a previsão do tempo — parte das atrações é ao ar livre.',
+    'Evite horários de pico em alta temporada (19h às 21h).'
+  ],
+
+  infraestrutura: {
+    wifi: 'Disponível em áreas específicas do complexo.',
+    banheiros: 'Banheiros distribuídos pelo parque, incluindo opções acessíveis.',
+    alimentação: 'Lanchonetes e pontos de alimentação no complexo.',
+    seguranca: 'Equipe de apoio, monitoramento por câmeras e controle de acesso.',
+    estacionamento: 'Área própria no local, com vagas para carros e ônibus de turismo.',
+    acessibilidade: 'Rampas de acesso, circulação ampla e banheiros adaptados em boa parte das áreas.'
   }
 },
   {
