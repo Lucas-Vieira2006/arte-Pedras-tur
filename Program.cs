@@ -49,15 +49,12 @@ builder.Services.AddAuthentication(x =>
 });
 
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.AllowAnyOrigin()  
-                  .AllowAnyHeader()
-                  .AllowAnyMethod();
-        });
+builder.Services.AddCors(options => {
+    options.AddPolicy("VercelPolicy", policy => {
+        policy.WithOrigins("https://arte-pedras-tur-web.vercel.app", "http://localhost:5173") // COLE O LINK DA VERCEL AQUI
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
 
@@ -75,7 +72,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowReactApp");
+app.UseCors("VercelPolicy");
 
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
