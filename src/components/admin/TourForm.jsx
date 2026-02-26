@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TourService from '../../services/tourService';
+import TourService from '../../services/TourService';
 
 const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
     const categoriasOpcoes = ['Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos'];

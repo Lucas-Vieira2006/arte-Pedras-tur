@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TourForm from '../components/admin/TourForm';
 import TourListAdmin from '../components/admin/TourListAdmin';
-import TourService from '../services/tourService';
+import TourService from '../services/TourService';
 
 const Admin = () => {
   const [tours, setTours] = useState([]);

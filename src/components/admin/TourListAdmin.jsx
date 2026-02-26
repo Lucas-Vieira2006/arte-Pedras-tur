@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TourService from '../../services/tourService';
+import TourService from '../../services/TourService';
 import TourCardAdmin from './TourCardAdmin';
 
 const TourListAdmin = ({ aoClicarEditar }) => {

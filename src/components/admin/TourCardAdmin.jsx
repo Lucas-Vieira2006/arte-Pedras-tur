@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, Tag } from 'lucide-react';
-import TourService from '../../services/tourService';
+import TourService from '../../services/TourService';
 import '../../styles/TourCard.css';
 
 const TourCardAdmin = ({ tour, aoExcluir, aoEditar }) => {

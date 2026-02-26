@@ -1,4 +1,4 @@
-import api from './api'; // Usa a configuração centralizada (BaseURL, Headers, etc)
+import api from './Api'; // Usa a configuração centralizada (BaseURL, Headers, etc)
 
 const TourService = {
   getTours: async () => {

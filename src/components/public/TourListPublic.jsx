@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PublicTourService from '../../services/publicTourService';
+import PublicTourService from '../../services/PublicTourService';
 import TourCardPublic from './TourCardPublic';
 import ReservaModal from '../modals/ReservaModal';
 import { Search } from 'lucide-react'; // Ícone de Lupa
