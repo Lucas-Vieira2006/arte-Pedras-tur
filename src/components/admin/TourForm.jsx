@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import TourService from '../../services/TourService';
 
 const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
-    const categoriasOpcoes = ['Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos', 'Apenas Transfer', 'Geral'];
+    // 1. Adicionado 'Apenas Transfer' nas opções
+    const categoriasOpcoes = ['Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos', 'Apenas Transfer'];
 
     const estadoInicial = {
         nome: '',
@@ -24,8 +25,7 @@ const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
     const [previewUrl, setPreviewUrl] = useState('');
     const [fazendoUpload, setFazendoUpload] = useState(false);
     
-    // NOVO ESTADO: Controla qual método o usuário quer usar
-    const [metodoImagem, setMetodoImagem] = useState('url'); // 'url' ou 'upload'
+    const [metodoImagem, setMetodoImagem] = useState('url');
 
     useEffect(() => {
         if (tourParaEditar) {
@@ -34,7 +34,6 @@ const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
                 categoria: tourParaEditar.categoria || 'Geral' 
             });
             setPreviewUrl(tourParaEditar.imagemUrl || '');
-            // Se já tem URL, assume o método URL como padrão na edição
             setMetodoImagem(tourParaEditar.imagemUrl ? 'url' : 'upload');
             window.scrollTo(0, 0);
         } else {
@@ -44,7 +43,8 @@ const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
         }
     }, [tourParaEditar]);
 
-useEffect(() => {
+    // 2. NOVA AUTOMAÇÃO: Se selecionar "Apenas Transfer", zera o precoBase e força o incluiTransporte
+    useEffect(() => {
         if (formData.categoria === 'Apenas Transfer') {
             setFormData(prev => ({
                 ...prev,
@@ -54,7 +54,6 @@ useEffect(() => {
         }
     }, [formData.categoria]);
 
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -62,7 +61,6 @@ useEffect(() => {
             [name]: type === 'checkbox' ? checked : type === 'number' ? Number(value) : value
         });
 
-        // Se o usuário estiver digitando a URL, atualiza o preview na hora
         if (name === 'imagemUrl' && metodoImagem === 'url') {
             setPreviewUrl(value);
         }
@@ -80,7 +78,6 @@ useEffect(() => {
         const data = new FormData();
         data.append('image', arquivo);
         
-        // Substitua pela sua chave do ImgBB
         const IMGBB_API_KEY = 'e64fe2b9d4a9263a384a85c98aa846a1'; 
 
         const resposta = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
@@ -99,7 +96,6 @@ useEffect(() => {
         try {
             let urlFinalDaImagem = formData.imagemUrl;
 
-            // Só faz o upload se o método escolhido for 'upload' E tiver um arquivo
             if (metodoImagem === 'upload' && imagemArquivo) {
                 urlFinalDaImagem = await uploadImagemParaNuvem(imagemArquivo);
             }
@@ -136,13 +132,13 @@ useEffect(() => {
     };
 
     useEffect(() => {
-        if (!formData.incluiTransporte) {
+        if (!formData.incluiTransporte && formData.categoria !== 'Apenas Transfer') {
             setFormData(prev => ({
                 ...prev,
                 valorTransfer: null
             }));
         }
-    }, [formData.incluiTransporte]);
+    }, [formData.incluiTransporte, formData.categoria]);
 
    return (
         <div className="container mt-5 shadow p-4 rounded bg-white">
@@ -151,7 +147,6 @@ useEffect(() => {
             </h2>
             
             <form onSubmit={handleSubmit}>
-                {/* LINHA 1: Nome, Categoria e Preço */}
                 <div className="row">
                     <div className="col-md-6 mb-3">
                         <label className="form-label">Nome do Passeio</label>
@@ -160,18 +155,28 @@ useEffect(() => {
                     <div className="col-md-3 mb-3">
                         <label className="form-label">Categoria</label>
                         <select className="form-select" name="categoria" value={formData.categoria} onChange={handleChange}>
+                            <option value="Geral">Geral</option>
                             {categoriasOpcoes.map(cat => (
                                 <option key={cat} value={cat}>{cat}</option>
                             ))}
                         </select>
                     </div>
                     <div className="col-md-3 mb-3">
-                        <label className="form-label">Preço (R$)</label>
-                        <input type="number" step="0.01" className="form-control" name="precoBase" value={formData.precoBase} onChange={handleChange} required />
+                        <label className="form-label">Preço Base (R$)</label>
+                        {/* 3. Bloqueia a edição do preço base se for Apenas Transfer */}
+                        <input 
+                            type="number" 
+                            step="0.01" 
+                            className="form-control" 
+                            name="precoBase" 
+                            value={formData.precoBase} 
+                            onChange={handleChange} 
+                            required 
+                            disabled={formData.categoria === 'Apenas Transfer'}
+                        />
                     </div>
                 </div>
 
-                {/* LINHA 2: Localização e Duração (AGORA ALINHADOS) */}
                 <div className="row">
                     <div className="col-md-9 mb-3">
                         <label className="form-label">Localização</label>
@@ -183,7 +188,7 @@ useEffect(() => {
                     </div>
                 </div>
 
-                {/* --- SEÇÃO DE IMAGEM ISOLADA --- */}
+                {/* --- SEÇÃO DE IMAGEM --- */}
                 <div className="bg-light p-3 rounded mb-3 border">
                     <div className="mb-2">
                         <label className="form-label fw-bold">Como deseja adicionar a imagem?</label>
@@ -250,7 +255,6 @@ useEffect(() => {
                         )}
                     </div>
                 </div>
-                {/* --- FIM DA SEÇÃO DE IMAGEM --- */}
 
                 <div className="mb-3">
                     <label className="form-label">Descrição</label>
@@ -260,7 +264,16 @@ useEffect(() => {
                 <div className="row align-items-center mb-4">
                     <div className="col-md-4">
                         <div className="form-check mt-2">
-                            <input type="checkbox" className="form-check-input" name="incluiTransporte" checked={formData.incluiTransporte} onChange={handleChange} id="transporte" />
+                            {/* 3. Bloqueia o checkbox se for Apenas Transfer */}
+                            <input 
+                                type="checkbox" 
+                                className="form-check-input" 
+                                name="incluiTransporte" 
+                                checked={formData.incluiTransporte} 
+                                onChange={handleChange} 
+                                id="transporte" 
+                                disabled={formData.categoria === 'Apenas Transfer'}
+                            />
                             <label className="form-check-label" htmlFor="transporte">Inclui serviço de transporte</label>
                         </div>
                     </div>
@@ -268,7 +281,15 @@ useEffect(() => {
                     {formData.incluiTransporte && (
                         <div className="col-md-4 animate__animated animate__fadeIn">
                             <label className="form-label text-primary fw-bold">Valor do Transfer (R$)</label>
-                            <input type="number" step="0.01" className="form-control border-primary" name="valorTransfer" value={formData.valorTransfer || ''} onChange={handleChange} required />
+                            <input 
+                                type="number" 
+                                step="0.01" 
+                                className="form-control border-primary" 
+                                name="valorTransfer" 
+                                value={formData.valorTransfer || ''} 
+                                onChange={handleChange} 
+                                required 
+                            />
                         </div>
                     )}
                 </div>
@@ -292,6 +313,5 @@ useEffect(() => {
         </div>
     );
 };
-
 
 export default TourForm;

@@ -16,7 +16,7 @@ const TourListPublic = () => {
   const [filtroCategoria, setFiltroCategoria] = useState('Todos'); 
   const [termoBusca, setTermoBusca] = useState(''); 
   
-  const categorias = ['Todos', 'Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos'];
+  const categorias = ['Todos', 'Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos', 'Apenas Transfer'];
 
   useEffect(() => {
     const carregarPasseios = async () => {

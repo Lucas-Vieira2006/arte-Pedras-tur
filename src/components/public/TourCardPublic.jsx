@@ -3,9 +3,14 @@ import "../../styles/TourCard.css";
 
 const TourCardPublic = ({ tour, onReservar }) => {
     const precoBase = Number(tour.precoBase);
-    const valorTransfer = Number(tour.valorTransfer);
+    
+    // Pega o valor do transfer vindo da API
+    const valorTransfer = Number(tour.valorTransfer); 
+
+    // Lógica: Se precoBase for 0, usa o valorTransfer. Senão, usa o precoBase.
     const precoCalculado = precoBase === 0 ? valorTransfer : precoBase;
-    const precoValido = Number.isFinite(precoBase) ? precoBase : null;
+    
+    const precoValido = Number.isFinite(precoCalculado) ? precoCalculado : null;
 
     return (
         <div className="card h-100 tour-card border-0 shadow-sm">
@@ -38,13 +43,11 @@ const TourCardPublic = ({ tour, onReservar }) => {
                 >
                     {tour.descricao || "Explore as maravilhas de Foz do Iguaçu com este passeio exclusivo."}
                 </p>
-                {/* ------------------------------------ */}
                 
                 <div className="mt-3">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <span className="text-muted small">A partir de</span>
                         <strong className="h4 mb-0 text-primary">
-                            {/* CORREÇÃO 2: Adicionei o '?' aqui */}
                             {precoValido !== null
                                 ? precoValido.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
                                 : 'Sob consulta'}
