@@ -18,7 +18,7 @@ const Footer = () => {
             </p>
             
             <div className="mt-4 pt-3 border-top border-secondary border-opacity-25">
-              <span className="d-block small text-muted fw-bold text-uppercase">Regularidade</span>
+              <span className="d-block small text-white fw-bold text-uppercase">Regularidade</span>
               <small className="opacity-75">CADASTUR: 05.324.200/0001-13</small><br />
               <small className="opacity-75">CNPJ: 05.324.200/0001-13</small>
             </div>
@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
             </ul>
             <div className="mt-4">
-               <h6 className="fw-bold mb-3 small text-uppercase text-muted">Acompanhe nas redes</h6>
+               <h6 className="fw-bold mb-3 small text-uppercase text-white">Acompanhe nas redes</h6>
                <div className="d-flex gap-3">
                   <a href="https://www.instagram.com/artepedrastur/" target="_blank" rel="noopener noreferrer"
                      className="btn btn-outline-light btn-sm rounded-circle d-flex align-items-center justify-content-center" 

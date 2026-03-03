@@ -3,6 +3,8 @@ import "../../styles/TourCard.css";
 
 const TourCardPublic = ({ tour, onReservar }) => {
     const precoBase = Number(tour.precoBase);
+    const valorTransfer = Number(tour.valorTransfer);
+    const precoCalculado = precoBase === 0 ? valorTransfer : precoBase;
     const precoValido = Number.isFinite(precoBase) ? precoBase : null;
 
     return (

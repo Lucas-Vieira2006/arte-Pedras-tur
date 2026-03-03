@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TourService from '../../services/TourService';
 
 const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
-    const categoriasOpcoes = ['Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos'];
+    const categoriasOpcoes = ['Natureza', 'Aventura', 'Compras', 'Cultura', 'Noturnos', 'Combos', 'Apenas Transfer', 'Geral'];
 
     const estadoInicial = {
         nome: '',
@@ -43,6 +43,17 @@ const TourForm = ({ tourParaEditar, aoFinalizarEdicao, onSucesso }) => {
             setImagemArquivo(null);
         }
     }, [tourParaEditar]);
+
+useEffect(() => {
+        if (formData.categoria === 'Apenas Transfer') {
+            setFormData(prev => ({
+                ...prev,
+                precoBase: 0,
+                incluiTransporte: true
+            }));
+        }
+    }, [formData.categoria]);
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
