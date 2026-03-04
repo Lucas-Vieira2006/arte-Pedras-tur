@@ -7,7 +7,11 @@ using Turismo.Api.Infrastructure.Data;
 using Turismo.Api.Infrastructure.Seed;
 
 
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -58,13 +62,14 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 
+app.UseCors("VercelPolicy");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseCors("VercelPolicy");
 
 app.UseHttpsRedirection();
 app.UseAuthentication(); 
