@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore; // IMPORTANTE
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Turismo.Api.Models;
 
@@ -11,7 +11,6 @@ namespace Turismo.Api.Infrastructure.Data
             : base(options)
         {
         }
-
         public DbSet<Tour> Tours { get; set; }
     }
 }

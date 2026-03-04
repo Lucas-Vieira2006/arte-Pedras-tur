@@ -9,18 +9,10 @@ using Turismo.Api.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Configuração do Banco
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlServerOptionsAction: sqlOptions =>
-        {
-            sqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,         
-                maxRetryDelay: TimeSpan.FromSeconds(30), 
-                errorNumbersToAdd: null  
-            );
-        }));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
