@@ -7,7 +7,7 @@ const PrivateRoute = ({ children }) => {
 
   if (loading) return <div>Carregando...</div>;
 
-  if (!signed || user?.role !== "Admin") {
+  if (!signed || !user?.roles?.includes("Admin")) {
     return <Navigate to="/login" />;
   }
 

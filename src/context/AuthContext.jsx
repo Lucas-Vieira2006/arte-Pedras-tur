@@ -4,6 +4,12 @@ import { jwtDecode } from "jwt-decode";
 
 export const AuthContext = createContext();
 
+const extractRoles = (decoded) => {
+  const rawRole = decoded?.role;
+  if (!rawRole) return [];
+  return Array.isArray(rawRole) ? rawRole : [rawRole];
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,14 +18,26 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("token");
 
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      try {
+        const decoded = jwtDecode(token);
 
-      const decoded = jwtDecode(token);
-      const role =
-        decoded.role ||
-        decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+        // Verifica se o token não expirou
+        const now = Date.now() / 1000;
+        if (decoded.exp && decoded.exp < now) {
+          localStorage.removeItem("token");
+          setLoading(false);
+          return;
+        }
 
-      setUser({ token, role });
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+
+        const roles = extractRoles(decoded);
+        const role = roles.includes("Admin") ? "Admin" : "public";
+
+        setUser({ token, role, roles, email: decoded.unique_name });
+      } catch (e) {
+        localStorage.removeItem("token");
+      }
     }
 
     setLoading(false);
@@ -33,11 +51,10 @@ export const AuthProvider = ({ children }) => {
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     const decoded = jwtDecode(token);
-    const role =
-      decoded.role ||
-      decoded["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const roles = extractRoles(decoded);
+    const role = roles.includes("Admin") ? "Admin" : "public";
 
-    setUser({ token, role });
+    setUser({ token, role, roles, email: response.data.email });
   };
 
   const logout = () => {
@@ -47,7 +64,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ signed: !!user, user, login, logout, loading }}>
+    <AuthContext.Provider value={{
+      signed: !!user,
+      user,
+      login,
+      logout,
+      loading,
+      hasRole: (r) => user?.roles?.includes(r) || false
+    }}>
       {children}
     </AuthContext.Provider>
   );
