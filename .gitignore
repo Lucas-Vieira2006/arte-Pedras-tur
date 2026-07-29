@@ -1,0 +1,12 @@
+.env
+*.pfx
+*.key
+*.pem
+
+banco/data/
+
+bin/
+obj/
+node_modules/
+dist/
+.vs/

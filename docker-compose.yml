@@ -1,0 +1,49 @@
+services:
+  banco:
+    image: mariadb:latest
+    container_name: banco_artepedras
+    command: >
+      --lower_case_table_names=1
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=defaultdb
+    volumes:
+      - ./banco/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - banco_data:/var/lib/mysql
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  backend:
+    build: ./artePedrasTur.api
+    container_name: backend_artepedras
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=banco;Port=3306;Database=defaultdb;Uid=database;Pwd=${DB_APP_PASSWORD};SSL Mode=none;
+      - Jwt__Key=${JWT_KEY}
+      - Cors__Origins=${CORS_ORIGINS}
+    depends_on:
+      - banco
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  frontend:
+    build: ./artePedrasTur.web
+    container_name: frontend_artepedras
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+    restart: unless-stopped
+
+networks:
+  app_network:
+
+volumes:
+  banco_data:
