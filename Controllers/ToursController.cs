@@ -7,9 +7,9 @@ using Turismo.Api.Models;
 
 namespace Turismo.Api.Controllers
 {
-    [Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/admin/tours")]
+    [Authorize(Roles = "Admin")]
     public class ToursController : ControllerBase
     {
         private readonly AppDbContext _context;

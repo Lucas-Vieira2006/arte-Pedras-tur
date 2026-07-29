@@ -6,15 +6,9 @@ using System.Text;
 using Turismo.Api.Infrastructure.Data;
 using Turismo.Api.Infrastructure.Seed;
 
-
-
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
@@ -22,38 +16,40 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("JWT Key não configurada.");
-var key = Encoding.ASCII.GetBytes(jwtKey);
+// Autenticação via JWT emitido pelo próprio backend (ASP.NET Identity)
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "CHAVE_SUPER_SECRETA_DO_ARTE_PEDRAS_TUR_2024";
 
-builder.Services.AddAuthentication(x =>
+builder.Services.AddAuthentication(options =>
 {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(x =>
+.AddJwtBearer(options =>
 {
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters
     {
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,   
-        ValidateAudience = false, 
-        ClockSkew = TimeSpan.Zero 
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtKey)),
+        ClockSkew = TimeSpan.FromMinutes(5),
     };
 });
 
+builder.Services.AddLogging(logging => logging.AddConsole());
+
+var corsOrigins = (builder.Configuration["Cors:Origins"] ?? "http://localhost:5173")
+    .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 builder.Services.AddCors(options => {
-    options.AddPolicy("VercelPolicy", policy => {
-        policy.WithOrigins("https://arte-pedras-tur-web.vercel.app", "http://localhost:5173") // COLE O LINK DA VERCEL AQUI
+    options.AddPolicy("AppPolicy", policy => {
+        policy.WithOrigins(corsOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
 });
-
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -61,20 +57,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors("AppPolicy");
 
-app.UseCors("VercelPolicy");
+app.UseSwagger();
+app.UseSwaggerUI();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-
-app.UseHttpsRedirection();
-app.UseAuthentication(); 
-app.UseAuthorization();  
-
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Turismo.Api.Infrastructure.Data;
 
@@ -5,6 +6,7 @@ namespace Turismo.Api.Controllers
 {
     [ApiController]
     [Route("api/public/tours")]
+    [AllowAnonymous]
     public class PublicToursController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -37,7 +39,6 @@ namespace Turismo.Api.Controllers
             return Ok(tours);
         }
 
-        // GET: api/public/tours/{id}
         [HttpGet("{id}")]
         public IActionResult GetById(Guid id)
         {

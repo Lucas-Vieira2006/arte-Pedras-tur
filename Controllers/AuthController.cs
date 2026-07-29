@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -23,17 +24,6 @@ namespace Turismo.Api.Controllers
             _configuration = configuration;
         }
 
-        /*[HttpPost("register")]
-        public async Task<ActionResult> Register([FromBody] LoginDto model)
-        {
-            if (model == null) return BadRequest("Dados inválidos");
-
-            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
-            var result = await _userManager.CreateAsync(user, model.Password);
-
-            if (result.Succeeded) return Ok("Usuário criado!");
-            return BadRequest(result.Errors);
-        }*/
 
     [HttpPost("login")]
 public async Task<ActionResult> Login([FromBody] LoginDto model)
