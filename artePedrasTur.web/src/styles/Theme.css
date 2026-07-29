@@ -1,0 +1,53 @@
+/* 1. IMPORTAÇÃO DA FONTE (Essencial para o 'Inter' funcionar) */
+@import url('https://fonts.googleapis.com/css2family=Inter:wght@300;400;600;700&display=swap');
+
+/* 2. DEFINIÇÃO DE VARIÁVEIS */
+:root {
+  /* --- Suas Cores --- */
+  --bg-main: #F8F9FA;
+  --primary: #003566;       /* Azul Profundo */
+  --primary-hover: #00254d; /* Azul mais escuro para hover */
+  --accent: #FFD60A;        /* Amarelo Ouro */
+  --accent-hover: #e6c200;  /* Amarelo mais escuro */
+  
+  --text-main: #212529;
+  --text-muted: #6c757d;
+  --white: #FFFFFF;
+
+  /* --- Sombras (Importante para o visual de Turismo) --- */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+  /* --- Override do Bootstrap (O Pulo do Gato 😺) --- */
+  /* Isso faz o Bootstrap usar SUAS cores nativamente */
+  --bs-primary: var(--primary);
+  --bs-warning: var(--accent); /* Onde for 'warning' agora será seu amarelo */
+  --bs-body-bg: var(--bg-main);
+  --bs-body-font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 3. ESTILOS GERAIS */
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  /* A fonte já é puxada pela variável do bootstrap acima, mas reforçamos aqui */
+  font-family: var(--bs-body-font-family); 
+  -webkit-font-smoothing: antialiased; /* Deixa a fonte mais nítida no Mac/iPhone */
+}
+
+/* Garante que o Footer fique no final da tela (Sticky Footer) */
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+/* 4. UTILITÁRIOS VISUAIS */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
