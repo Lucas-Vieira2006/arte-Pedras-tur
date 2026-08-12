@@ -1,8 +1,10 @@
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "artePedrasTur.api", "artePedrasTur.api.csproj", "{6D4EB8D7-AE19-2708-4606-792091A55561}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "artePedrasTur.api.Tests", "..\artePedrasTur.api.Tests\artePedrasTur.api.Tests.csproj", "{BEE7ED55-ACED-48B3-8236-EEF4D838D611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,6 +16,10 @@ Global
 		{6D4EB8D7-AE19-2708-4606-792091A55561}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D4EB8D7-AE19-2708-4606-792091A55561}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D4EB8D7-AE19-2708-4606-792091A55561}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE7ED55-ACED-48B3-8236-EEF4D838D611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE7ED55-ACED-48B3-8236-EEF4D838D611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE7ED55-ACED-48B3-8236-EEF4D838D611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE7ED55-ACED-48B3-8236-EEF4D838D611}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
