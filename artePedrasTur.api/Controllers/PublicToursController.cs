@@ -31,8 +31,8 @@ namespace Turismo.Api.Controllers
                     t.ImagemUrl,
                     t.ValorTransfer,
                     t.Ativo,
-                    t.Categoria,   
-                    t.Localizacao 
+                    t.Categoria,
+                    t.Localizacao
                 })
                 .ToList();
 

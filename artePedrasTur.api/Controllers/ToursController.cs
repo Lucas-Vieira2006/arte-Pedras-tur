@@ -34,7 +34,7 @@ namespace Turismo.Api.Controllers
                     DuracaoHoras = t.DuracaoHoras,
                     ImagemUrl = t.ImagemUrl,
                     ValorTransfer = t.ValorTransfer,
-                    Categoria = t.Categoria 
+                    Categoria = t.Categoria
                 })
                 .ToListAsync();
 
@@ -113,7 +113,7 @@ namespace Turismo.Api.Controllers
             existente.IncluiTransporte = tour.IncluiTransporte;
             existente.ImagemUrl = tour.ImagemUrl;
             existente.ValorTransfer = tour.ValorTransfer;
-            existente.Categoria = tour.Categoria; 
+            existente.Categoria = tour.Categoria;
 
             await _context.SaveChangesAsync();
 
@@ -127,7 +127,7 @@ namespace Turismo.Api.Controllers
             if (tour == null) return NotFound();
 
             _context.Tours.Remove(tour); // O Hard Delete está correto aqui
-            
+
             await _context.SaveChangesAsync();
             return NoContent();
         }
