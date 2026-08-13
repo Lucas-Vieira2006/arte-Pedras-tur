@@ -1,6 +1,6 @@
 namespace Turismo.Api.DTOs
 {
-  public class TourResponseDto
+    public class TourResponseDto
     {
         public Guid Id { get; set; }
         public string Nome { get; set; } = string.Empty;

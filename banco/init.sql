@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS defaultdb;
 USE defaultdb;
 
 -- Cria o usuário que o seu .NET espera e dá permissão
-CREATE USER IF NOT EXISTS 'database'@'%' IDENTIFIED BY 'Suelen123*';
+CREATE USER IF NOT EXISTS 'database'@'%' IDENTIFIED BY 'dqyk3aMBqCNcj6aV3pyTC4vGbyTK';
 GRANT ALL PRIVILEGES ON defaultdb.* TO 'database'@'%';
 FLUSH PRIVILEGES;
 

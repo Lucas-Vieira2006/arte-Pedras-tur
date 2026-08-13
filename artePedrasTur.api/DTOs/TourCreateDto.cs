@@ -1,10 +1,10 @@
 namespace Turismo.Api.DTOs;
 
- public class TourCreateDto
+public class TourCreateDto
 {
     public string Nome { get; set; } = string.Empty;
     public string Descricao { get; set; } = string.Empty;
-    public decimal PrecoBase { get; set; } 
+    public decimal PrecoBase { get; set; }
     public string Localizacao { get; set; } = string.Empty;
     public int DuracaoHoras { get; set; }
     public bool IncluiTransporte { get; set; }

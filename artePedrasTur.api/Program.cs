@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Turismo.Api.Infrastructure.Data;
 using Turismo.Api.Infrastructure.Seed;
+using Turismo.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 // Autenticação via JWT emitido pelo próprio backend (ASP.NET Identity)
 var jwtKey = builder.Configuration["Jwt:Key"] ?? "CHAVE_SUPER_SECRETA_DO_ARTE_PEDRAS_TUR_2024";
+builder.Services.AddSingleton<IJwtTokenService>(new JwtTokenService(jwtKey));
 
 builder.Services.AddAuthentication(options =>
 {
@@ -43,8 +45,10 @@ builder.Services.AddLogging(logging => logging.AddConsole());
 var corsOrigins = (builder.Configuration["Cors:Origins"] ?? "http://localhost:5173")
     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
-builder.Services.AddCors(options => {
-    options.AddPolicy("AppPolicy", policy => {
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AppPolicy", policy =>
+    {
         policy.WithOrigins(corsOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod();
