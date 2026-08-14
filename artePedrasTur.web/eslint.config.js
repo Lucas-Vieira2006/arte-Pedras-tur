@@ -24,6 +24,11 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      // Rebaixado pra warning: a regra sinaliza o padrão "checar auth/buscar dado
+      // uma vez ao montar o componente" (useEffect(() => { setEstado(...) }, []))
+      // como erro, mas esse é o padrão idiomático usado em AuthContext.jsx e
+      // Admin.jsx pra inicialização — não uma cascata de renders real.
+      'react-hooks/set-state-in-effect': 'warn',
     },
   },
 ])

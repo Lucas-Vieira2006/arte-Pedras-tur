@@ -1,8 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import api from "../services/Api.js";
 import { jwtDecode } from "jwt-decode";
-
-export const AuthContext = createContext();
+import { AuthContext } from "./AuthContextInstance.js";
 
 const extractRoles = (decoded) => {
   const rawRole = decoded?.role;
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }) => {
         const role = roles.includes("Admin") ? "Admin" : "public";
 
         setUser({ token, role, roles, email: decoded.unique_name });
-      } catch (e) {
+      } catch {
         localStorage.removeItem("token");
       }
     }
