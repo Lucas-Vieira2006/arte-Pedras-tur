@@ -115,7 +115,9 @@ jobs:
           script: |
             cd ~/arte-Pedras-tur
             git pull
-            docker compose up -d --build
+            docker compose build frontend
+            docker compose build backend
+            docker compose up -d
 
       - name: Health check
         run: |
