@@ -14,6 +14,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="xunit" Version="2.5.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+    <!-- Pins explícitos: Microsoft.NET.Test.Sdk 17.8.0 traz transitivamente versões
+         antigas e vulneráveis destes três pacotes. Fixados nas versões corrigidas
+         mais recentes compatíveis com net8.0, sem trocar o SDK de teste. -->
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>
