@@ -31,14 +31,39 @@ jobs:
       - name: Restore backend
         run: dotnet restore artePedrasTur.api/artePedrasTur.sln
 
-      - name: Build backend
-        run: dotnet build artePedrasTur.api/artePedrasTur.sln --no-restore --configuration Release
+      - name: Build backend (com analisadores estáticos como erro)
+        # -warnaserror:CA promove os analisadores Roslyn (Microsoft.CodeAnalysis.*)
+        # já habilitados por padrão em projetos .NET 8 de warning pra erro. Hoje o
+        # projeto está limpo de violações CA (validado localmente antes de ligar
+        # o gate), então isso funciona como análise estática real, não cosmética.
+        run: dotnet build artePedrasTur.api/artePedrasTur.sln --no-restore --configuration Release -warnaserror:CA
 
       - name: Test backend
         run: dotnet test artePedrasTur.api/artePedrasTur.sln --no-build --configuration Release
 
       - name: Lint backend (dotnet format)
         run: dotnet format artePedrasTur.api/artePedrasTur.sln --verify-no-changes
+
+      - name: Check backend dependencies for known vulnerabilities
+        # dotnet list --vulnerable sempre retorna exit code 0, então o gate real
+        # é o grep abaixo: se aparecer a frase de aviso, a pipeline falha.
+        run: |
+          output=$(dotnet list artePedrasTur.api/artePedrasTur.sln package --vulnerable --include-transitive 2>&1)
+          echo "$output"
+          if echo "$output" | grep -q "has the following vulnerable packages"; then
+            echo "Dependência vulnerável encontrada no backend."
+            exit 1
+          fi
+
+      - name: Publish backend (gera artefato de build)
+        run: dotnet publish artePedrasTur.api/artePedrasTur.api.csproj --no-build --configuration Release -o publish/backend
+
+      - name: Upload backend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-publish
+          path: publish/backend
+          retention-days: 7
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -51,9 +76,29 @@ jobs:
         working-directory: artePedrasTur.web
         run: npm ci
 
+      - name: Lint frontend (eslint)
+        working-directory: artePedrasTur.web
+        run: npm run lint
+
+      - name: Check frontend dependencies for known vulnerabilities
+        # Bloqueia só em severidade crítica. Hoje existem achados "high" (ex.:
+        # vite, react-router) sem correção não-destrutiva disponível (exigem bump
+        # de versão major) — tratados como risco aceito e documentado em
+        # docs/pipeline-cicd.md, não escondidos. O relatório completo (todas as
+        # severidades) continua aparecendo no log deste passo mesmo sem falhar.
+        working-directory: artePedrasTur.web
+        run: npm audit --audit-level=critical
+
       - name: Build frontend
         working-directory: artePedrasTur.web
         run: npm run build
+
+      - name: Upload frontend artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: artePedrasTur.web/dist
+          retention-days: 7
 
   deploy:
     needs: validate

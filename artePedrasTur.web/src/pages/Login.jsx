@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from '../context/AuthContextInstance.js';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
@@ -13,7 +13,7 @@ const Login = () => {
     try {
       await login(email, password);
       navigate('/admin'); // Manda pro Admin após sucesso
-    } catch (error) {
+    } catch {
       alert("Acesso negado! Verifique seus dados.");
     }
   };
