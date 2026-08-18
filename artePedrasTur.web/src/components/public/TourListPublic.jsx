@@ -70,7 +70,7 @@ const TourListPublic = () => {
             <h6 className="text-primary fw-bold text-uppercase ls-wide" style={{ letterSpacing: '2px' }}>
               Explorar Destinos
             </h6>
-            <h2 className="display-5 fw-bold mb-3">O que fazer em Uniamerica</h2>
+            <h2 className="display-5 fw-bold mb-3">O que fazer em Foz do Iguaçu</h2>
             
             <div className="row justify-content-center mb-4">
               <div className="col-md-6 col-lg-5">
