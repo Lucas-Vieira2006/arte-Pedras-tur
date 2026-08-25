@@ -4,7 +4,7 @@ namespace Turismo.Api.Infrastructure.Seed
 {
     public static class IdentitySeed
     {
-        public static async Task SeedAsync(IServiceProvider services)
+        public static async Task SeedAsync(IServiceProvider services, IConfiguration configuration)
         {
             var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
@@ -15,7 +15,11 @@ namespace Turismo.Api.Infrastructure.Seed
             }
 
             var email = "admin@artepedrastur.com";
-            var password = "Admin@123";
+            // Senha do admin seedado em Development. Configurável via Seed:AdminPassword
+            // (variável de ambiente Seed__AdminPassword) para quem quiser trocar localmente.
+            // Este seed nunca roda em Production (ver Program.cs) — a senha real de produção
+            // vem de banco/init.sql e é trocada manualmente, não por aqui.
+            var password = configuration["Seed:AdminPassword"] ?? "Dev@Local123!";
 
             var user = await userManager.FindByEmailAsync(email);
             if (user == null)

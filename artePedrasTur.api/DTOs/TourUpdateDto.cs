@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Turismo.Api.DTOs;
 
-public class TourCreateDto : IValidatableObject
+public class TourUpdateDto : IValidatableObject
 {
     [Required, StringLength(200)]
     public string Nome { get; set; } = string.Empty;

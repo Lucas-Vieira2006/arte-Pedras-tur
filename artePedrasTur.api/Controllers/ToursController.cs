@@ -90,30 +90,21 @@ namespace Turismo.Api.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, Tour tour) // AJUSTADO PARA ASYNC
+        public async Task<IActionResult> Update(Guid id, TourUpdateDto dto)
         {
-            if (tour.Id == Guid.Empty)
-            {
-                tour.Id = id;
-            }
-
-            if (id != tour.Id)
-                return BadRequest("ID da rota diferente do ID do corpo da requisição");
-
             var existente = await _context.Tours.FindAsync(id);
             if (existente == null)
                 return NotFound();
 
-            // Atualização manual corrigida
-            existente.Nome = tour.Nome;
-            existente.Descricao = tour.Descricao;
-            existente.PrecoBase = tour.PrecoBase;
-            existente.Localizacao = tour.Localizacao;
-            existente.DuracaoHoras = tour.DuracaoHoras;
-            existente.IncluiTransporte = tour.IncluiTransporte;
-            existente.ImagemUrl = tour.ImagemUrl;
-            existente.ValorTransfer = tour.ValorTransfer;
-            existente.Categoria = tour.Categoria;
+            existente.Nome = dto.Nome;
+            existente.Descricao = dto.Descricao;
+            existente.PrecoBase = dto.PrecoBase;
+            existente.Localizacao = dto.Localizacao;
+            existente.DuracaoHoras = dto.DuracaoHoras;
+            existente.IncluiTransporte = dto.IncluiTransporte;
+            existente.ImagemUrl = dto.ImagemUrl;
+            existente.ValorTransfer = dto.IncluiTransporte ? dto.ValorTransfer : null;
+            existente.Categoria = dto.Categoria;
 
             await _context.SaveChangesAsync();
 
