@@ -22,8 +22,16 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 // Autenticação via JWT emitido pelo próprio backend (ASP.NET Identity)
 // Sem fallback hardcoded: falha rápido no boot se Jwt:Key (env var JWT_KEY) não
 // estiver configurada, em vez de assinar tokens com uma chave conhecida/previsível.
-var jwtKey = builder.Configuration["Jwt:Key"]
-    ?? throw new InvalidOperationException("Configuração 'Jwt:Key' ausente. Defina a variável de ambiente JWT_KEY.");
+// Checagem por string.IsNullOrWhiteSpace, não só null: quando JWT_KEY não está
+// setada no host, o docker-compose substitui por string vazia (não omite a env
+// var), então um "?? throw" sozinho não pega esse caso — confirmado testando
+// com requisição HTTP real, onde isso resultava em 500 silencioso no login em
+// vez de falhar na subida do container.
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException("Configuração 'Jwt:Key' ausente. Defina a variável de ambiente JWT_KEY.");
+}
 builder.Services.AddSingleton<IJwtTokenService>(new JwtTokenService(jwtKey));
 
 builder.Services.AddAuthentication(options =>
