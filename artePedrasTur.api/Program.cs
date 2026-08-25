@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Threading.RateLimiting;
 using Turismo.Api.Infrastructure.Data;
 using Turismo.Api.Infrastructure.Seed;
 using Turismo.Api.Services;
@@ -18,7 +20,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddDefaultTokenProviders();
 
 // Autenticação via JWT emitido pelo próprio backend (ASP.NET Identity)
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "CHAVE_SUPER_SECRETA_DO_ARTE_PEDRAS_TUR_2024";
+// Sem fallback hardcoded: falha rápido no boot se Jwt:Key (env var JWT_KEY) não
+// estiver configurada, em vez de assinar tokens com uma chave conhecida/previsível.
+var jwtKey = builder.Configuration["Jwt:Key"]
+    ?? throw new InvalidOperationException("Configuração 'Jwt:Key' ausente. Defina a variável de ambiente JWT_KEY.");
 builder.Services.AddSingleton<IJwtTokenService>(new JwtTokenService(jwtKey));
 
 builder.Services.AddAuthentication(options =>
@@ -59,12 +64,67 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Rate limiting no login: mitiga força bruta de credenciais. 5 tentativas por IP
+// por minuto, sem fila (excesso é rejeitado na hora com 429, não empilhado).
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("login", httpContext => RateLimitPartition.GetFixedWindowLimiter(
+        partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+        factory: _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 5,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        }));
+});
+
 var app = builder.Build();
+
+// Tratamento de exceção explícito nos dois ambientes: em Development mostra a
+// página de erro detalhada; em produção nunca vaza stack trace, só uma resposta
+// JSON genérica.
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler(errorApp =>
+    {
+        errorApp.Run(async context =>
+        {
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
+            await context.Response.WriteAsync("{\"error\":\"Ocorreu um erro interno.\"}");
+        });
+    });
+}
+
+// Headers de segurança básicos. CSP só fora de Development porque o Swagger UI
+// (única página HTML servida pelo backend, e só em Development) precisa carregar
+// script/estilo inline — em produção o backend nunca serve HTML, então a política
+// restritiva é segura.
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.XContentTypeOptions = "nosniff";
+    context.Response.Headers.XFrameOptions = "DENY";
+    if (!app.Environment.IsDevelopment())
+    {
+        context.Response.Headers.ContentSecurityPolicy = "default-src 'none'";
+    }
+    await next();
+});
 
 app.UseCors("AppPolicy");
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseRateLimiter();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -74,7 +134,7 @@ app.MapControllers();
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
-    await IdentitySeed.SeedAsync(scope.ServiceProvider);
+    await IdentitySeed.SeedAsync(scope.ServiceProvider, app.Configuration);
 }
 
 app.Run();
