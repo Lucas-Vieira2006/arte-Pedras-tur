@@ -1,0 +1,17 @@
+turismo.artepedrastur.com.br {
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# Qualquer outro host (ex.: acesso direto pelo IP) não tem domínio pra
+# emitir certificado, então só redireciona pro domínio com HTTPS.
+:80 {
+	redir https://turismo.artepedrastur.com.br{uri} permanent
+}
