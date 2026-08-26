@@ -16,6 +16,7 @@ services:
     restart: unless-stopped
 
   backend:
+    image: ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:latest
     build: ./artePedrasTur.api
     container_name: backend_artepedras
     ports:
@@ -33,6 +34,7 @@ services:
     restart: unless-stopped
 
   frontend:
+    image: ghcr.io/lucas-vieira2006/arte-pedras-tur-frontend:latest
     build: ./artePedrasTur.web
     container_name: frontend_artepedras
     ports:
