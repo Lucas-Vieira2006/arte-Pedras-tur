@@ -1,13 +1,15 @@
 # Pipeline de CI/CD do Arte Pedras Tur.
 #
-# LIMITAÇÃO CONHECIDA: o job de deploy roda "docker compose up -d --build"
-# dentro da própria VM e2-micro (1 vCPU compartilhada, 1 GB RAM), que é onde
-# a aplicação já roda em produção. Isso é lento e disputa memória com os
-# containers que já estão de pé durante o build. Melhoria futura: buildar a
-# imagem no runner do GitHub Actions (que tem recursos de sobra) e publicar
-# num registry (ex.: GitHub Container Registry), fazendo a VM só rodar
-# "docker compose pull && docker compose up -d" com a imagem já pronta, em
-# vez de compilar em produção.
+# As imagens Docker são buildadas no runner do GitHub Actions (job
+# build-and-push) e publicadas no GHCR — não são mais compiladas dentro da
+# VM e2-micro (1 vCPU compartilhada, 1 GB RAM), que travava disputando
+# CPU/memória com os containers de produção durante o build. O job de
+# deploy só roda "docker compose pull" e sobe a imagem já pronta.
+#
+# Os pacotes ghcr.io/lucas-vieira2006/arte-pedras-tur-{backend,frontend}
+# precisam estar com visibilidade pública (Package settings > Danger Zone
+# > Change visibility), senão o "docker compose pull" na VM falha por
+# falta de credencial.
 
 name: CI/CD
 
@@ -100,8 +102,41 @@ jobs:
           path: artePedrasTur.web/dist
           retention-days: 7
 
-  deploy:
+  build-and-push:
     needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e push da imagem do backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./artePedrasTur.api
+          push: true
+          tags: ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:latest
+
+      - name: Build e push da imagem do frontend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./artePedrasTur.web
+          push: true
+          tags: ghcr.io/lucas-vieira2006/arte-pedras-tur-frontend:latest
+
+  deploy:
+    needs: build-and-push
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -111,12 +146,11 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command_timeout: 20m
+          command_timeout: 10m
           script: |
             cd ~/arte-Pedras-tur
             git pull
-            docker compose build frontend
-            docker compose build backend
+            docker compose pull backend frontend
             docker compose up -d
 
       - name: Health check
