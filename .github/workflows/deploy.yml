@@ -10,6 +10,12 @@
 # precisam estar com visibilidade pública (Package settings > Danger Zone
 # > Change visibility), senão o "docker compose pull" na VM falha por
 # falta de credencial.
+#
+# Cada imagem também é publicada com a tag do SHA do commit, além de
+# "latest". Rollback manual: entrar na VM via SSH e rodar
+# "docker compose pull backend frontend" trocando a tag da imagem no
+# docker-compose.yml (ou um "docker tag ghcr.io/.../backend:<sha-bom>
+# ghcr.io/.../backend:latest" seguido de "docker compose up -d").
 
 name: CI/CD
 
@@ -126,14 +132,18 @@ jobs:
         with:
           context: ./artePedrasTur.api
           push: true
-          tags: ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:latest
+          tags: |
+            ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:latest
+            ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:${{ github.sha }}
 
       - name: Build e push da imagem do frontend
         uses: docker/build-push-action@v6
         with:
           context: ./artePedrasTur.web
           push: true
-          tags: ghcr.io/lucas-vieira2006/arte-pedras-tur-frontend:latest
+          tags: |
+            ghcr.io/lucas-vieira2006/arte-pedras-tur-frontend:latest
+            ghcr.io/lucas-vieira2006/arte-pedras-tur-frontend:${{ github.sha }}
 
   deploy:
     needs: build-and-push
@@ -154,6 +164,10 @@ jobs:
             docker compose up -d
 
       - name: Health check
+        # Via HTTPS/domínio, não mais via IP:8080 direto: a porta 8080 do
+        # backend não é mais publicada pro host (ver docker-compose.yml),
+        # então este é também o teste real de ponta a ponta (Caddy + TLS
+        # + backend) depois de cada deploy.
         run: |
           sleep 15
-          curl -f "http://${{ secrets.SSH_HOST }}:8080/api/public/tours"
+          curl -f https://turismo.artepedrastur.com.br/api/public/tours
