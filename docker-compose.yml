@@ -19,8 +19,10 @@ services:
     image: ghcr.io/lucas-vieira2006/arte-pedras-tur-backend:latest
     build: ./artePedrasTur.api
     container_name: backend_artepedras
-    ports:
-      - "8080:8080"
+    # Sem "ports": só acessível pela rede interna do Docker (Caddy fala com
+    # backend:8080 direto). Fechado externamente depois de confirmar TLS
+    # estável em produção — antes disso dava pra falar com a API em texto
+    # puro pelo IP:8080, ignorando o HTTPS.
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
