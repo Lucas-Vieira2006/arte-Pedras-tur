@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { CalendarCheck, Info, FileText, Backpack, IdCard, Bus } from 'lucide-react';
 import ReservaHeader from './ReservaHeader';
 import ReservaForm from './ReservaForm';
 import { calcularCustos } from '../../services/ReservaService';
@@ -78,7 +79,7 @@ _Aguardo confirmação de disponibilidade._`;
         {/* === TABS === */}
         <div className="d-flex border-bottom">
           <button
-            className="btn flex-grow-1 py-3 fw-bold rounded-0"
+            className="btn flex-grow-1 py-3 fw-bold rounded-0 d-flex align-items-center justify-content-center gap-2"
             style={{
               backgroundColor: activeTab === 'reserva' ? '#ffffff' : '#e9ecef',
               color: activeTab === 'reserva' ? 'var(--primary)' : '#6c757d',
@@ -89,11 +90,12 @@ _Aguardo confirmação de disponibilidade._`;
             }}
             onClick={() => setActiveTab('reserva')}
           >
-            📅 Reservar Agora
+            <CalendarCheck size={18} aria-hidden="true" focusable="false" />
+            Reservar Agora
           </button>
 
           <button
-            className="btn flex-grow-1 py-3 fw-bold rounded-0"
+            className="btn flex-grow-1 py-3 fw-bold rounded-0 d-flex align-items-center justify-content-center gap-2"
             style={{
               backgroundColor: activeTab === 'detalhes' ? '#ffffff' : '#e9ecef',
               color: activeTab === 'detalhes' ? 'var(--primary)' : '#6c757d',
@@ -104,7 +106,8 @@ _Aguardo confirmação de disponibilidade._`;
             }}
             onClick={() => setActiveTab('detalhes')}
           >
-            ℹ️ Detalhes & Regras
+            <Info size={18} aria-hidden="true" focusable="false" />
+            Detalhes & Regras
           </button>
         </div>
 
@@ -130,7 +133,10 @@ _Aguardo confirmação de disponibilidade._`;
             <div className="fade-in">
               <div className="row">
                 <div className="col-12 mb-4">
-                  <h5 className="fw-bold text-primary mb-3">📝 Sobre o Passeio</h5>
+                  <h5 className="fw-bold text-primary mb-3 d-flex align-items-center gap-2">
+                    <FileText size={20} aria-hidden="true" focusable="false" />
+                    Sobre o Passeio
+                  </h5>
                   <p className="text-muted" style={{ lineHeight: '1.8' }}>
                     {tour.descricao ||
                       'Descrição detalhada não disponível para este passeio no momento.'}
@@ -139,7 +145,10 @@ _Aguardo confirmação de disponibilidade._`;
 
                 <div className="col-md-6 mb-4">
                   <div className="bg-light p-4 rounded h-100 border-start border-4 border-primary">
-                    <h6 className="fw-bold text-dark mb-3">🎒 O que levar</h6>
+                    <h6 className="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                      <Backpack size={18} aria-hidden="true" focusable="false" />
+                      O que levar
+                    </h6>
                     <ul className="text-muted mb-0 ps-3">
                       <li className="mb-2">Protetor solar e repelente</li>
                       <li className="mb-2">Água e lanche leve</li>
@@ -151,7 +160,10 @@ _Aguardo confirmação de disponibilidade._`;
 
                 <div className="col-md-6 mb-4">
                   <div className="bg-light p-4 rounded h-100 border-start border-4 border-warning">
-                    <h6 className="fw-bold text-dark mb-3">📄 Documentos Obrigatórios</h6>
+                    <h6 className="fw-bold text-dark mb-3 d-flex align-items-center gap-2">
+                      <IdCard size={18} aria-hidden="true" focusable="false" />
+                      Documentos Obrigatórios
+                    </h6>
                     <ul className="text-muted mb-0 ps-3">
                       <li className="mb-2">RG Original ou CNH (em bom estado)</li>
                       <li className="mb-2">Menores: Certidão de Nascimento</li>
@@ -162,7 +174,7 @@ _Aguardo confirmação de disponibilidade._`;
 
                 <div className="col-12">
                   <div className="alert alert-info border-0 d-flex align-items-center shadow-sm">
-                    <span className="fs-1 me-4">🚌</span>
+                    <Bus size={32} className="me-4 flex-shrink-0" aria-hidden="true" focusable="false" />
                     <div>
                       <h6 className="fw-bold mb-1">Logística de Transporte</h6>
                       <p className="small mb-0">
