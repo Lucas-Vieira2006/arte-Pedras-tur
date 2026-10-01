@@ -170,4 +170,4 @@ jobs:
         # + backend) depois de cada deploy.
         run: |
           sleep 15
-          curl -f https://turismo.artepedrastur.com.br/api/public/tours
+          curl -f https://artepedrastur.com.br/api/public/tours
