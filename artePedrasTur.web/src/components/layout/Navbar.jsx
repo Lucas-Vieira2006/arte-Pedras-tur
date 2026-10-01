@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { MessageCircle, Menu, X } from 'lucide-react'; // Removi 'Gem' que não estava sendo usado
+import { MessageCircle, Menu, X } from 'lucide-react';
 import logoArtePedras from '../../assets/images/logo-arte-pedras.png';
 
 const Navbar = () => {

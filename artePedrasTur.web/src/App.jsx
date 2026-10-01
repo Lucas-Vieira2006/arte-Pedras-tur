@@ -21,6 +21,7 @@ const SobreNos = lazy(() => import('./pages/SobreNos'));
 
 // Página Privada
 const Admin = lazy(() => import('./pages/Admin'));
+const NaoEncontrada = lazy(() => import('./pages/NaoEncontrada'));
 
 // Exibido enquanto o código da rota está sendo baixado. Com a altura mínima do
 // <main> já reservada, não há salto de layout quando o conteúdo chega.
@@ -64,6 +65,10 @@ function App() {
                 </PrivateRoute>
               } 
             />
+
+            {/* Rota coringa: sem ela, endereço inexistente renderizava tela
+                vazia, que o Google trata como "soft 404". */}
+            <Route path="*" element={<NaoEncontrada />} />
           </Routes>
         </Suspense>
 

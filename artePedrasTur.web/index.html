@@ -1,11 +1,34 @@
-
 <!doctype html>
-<html lang="en">
+<!-- lang="pt-BR": o site é inteiramente em português. Estava "en", o que
+     atrapalha o Google a segmentar o site por idioma e região. -->
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Arte Pedras Tur </title>
+    <meta name="theme-color" content="#0a3d62" />
+
+    <!-- Valores padrão. Cada rota sobrescreve os seus via o hook useSeo
+         (src/seo/useSeo.js) — isto aqui é o que vale antes do JavaScript rodar
+         e para qualquer rota que não defina os próprios. -->
+    <title>Arte Pedras Tur — Passeios e Turismo em Foz do Iguaçu</title>
+    <meta
+      name="description"
+      content="Agência de turismo credenciada em Foz do Iguaçu. Cataratas, Itaipu, Marco das Três Fronteiras e mais, com guias credenciados e reserva direta pelo WhatsApp."
+    />
+    <link rel="canonical" href="https://artepedrastur.com.br/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Arte Pedras Tur" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:title" content="Arte Pedras Tur — Passeios e Turismo em Foz do Iguaçu" />
+    <meta
+      property="og:description"
+      content="Agência de turismo credenciada em Foz do Iguaçu. Cataratas, Itaipu, Marco das Três Fronteiras e mais, com guias credenciados e reserva direta pelo WhatsApp."
+    />
+    <meta property="og:url" content="https://artepedrastur.com.br/" />
+    <meta property="og:image" content="https://artepedrastur.com.br/og/padrao.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>

@@ -2,8 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram, CircleCheck } from 'lucide-react';
 import logoOficial from '../assets/images/logo-arte-pedras.png';
+import useSeo from '../seo/useSeo';
 
 const SobreNos = () => {
+  useSeo({
+    titulo: 'Sobre a Arte Pedras Tur — Agência credenciada em Foz do Iguaçu',
+    descricao:
+      'Agência de turismo registrada no Ministério do Turismo (CADASTUR), com guias credenciados e fiscalizados. Conheça a história e o compromisso da Arte Pedras Tur.',
+    caminho: '/sobre',
+  });
+
   return (
     <div className="bg-light">
 

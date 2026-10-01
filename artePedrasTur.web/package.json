@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "otimiza-imagens": "node scripts/otimiza-imagens.mjs"
+    "otimiza-imagens": "node scripts/otimiza-imagens.mjs",
+    "gera-seo": "node scripts/gera-seo.mjs"
   },
   "dependencies": {
     "axios": "^1.13.3",

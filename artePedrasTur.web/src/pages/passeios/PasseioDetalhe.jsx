@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { MapPin, CircleCheck, FileText } from 'lucide-react';
 import PasseioService from '../../services/PasseioService';
 import PasseioCarousel from '../../components/public/PasseioCarousel';
+import useSeo, { SITE, resumir } from '../../seo/useSeo';
 
 const PasseioDetalhe = () => {
   const { slug } = useParams();
@@ -12,6 +13,16 @@ const PasseioDetalhe = () => {
     PasseioService.getBySlug(slug).then(setPasseio);
     window.scrollTo(0, 0); 
   }, [slug]);
+
+  // Cada guia tem título e descrição próprios: é o que impede os 13 de
+  // competirem entre si na busca com o mesmo texto. A imagem de compartilhamento
+  // é a do próprio passeio, gerada por scripts/gera-seo.mjs.
+  useSeo({
+    titulo: passeio ? `${passeio.nome} — Guia completo | Arte Pedras Tur` : '',
+    descricao: passeio ? resumir(passeio.descricao) : '',
+    caminho: `/passeios/${slug}`,
+    imagem: passeio ? `${SITE}/og/${slug}.jpg` : undefined,
+  });
 
   if (!passeio) return null;
 

@@ -32,7 +32,7 @@ artepedrastur.com.br {
 	# As imagens têm nome fixo, editado à mão. 30 dias evita rebaixar o nome pra
 	# cada visita sem prender o visitante numa foto antiga por um ano caso uma
 	# seja trocada mantendo o mesmo nome — por isso não leva "immutable".
-	@imagens path /images/*
+	@imagens path /images/* /og/*
 	header @imagens Cache-Control "public, max-age=2592000"
 }
 
