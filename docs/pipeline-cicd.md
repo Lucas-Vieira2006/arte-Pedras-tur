@@ -3,7 +3,7 @@
 **Ferramenta:** GitHub Actions
 **Arquivo de definição:** `.github/workflows/deploy.yml`
 **Repositório:** https://github.com/Lucas-Vieira2006/arte-Pedras-tur
-**Execução de referência (evidência real, verde de ponta a ponta):** https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31692211363
+**Execução de referência (evidência real, verde de ponta a ponta, com todos os reforços já ativos):** https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31829610687
 
 ---
 
@@ -42,13 +42,15 @@ Roda sempre, em toda alteração relevante. Etapas, na ordem:
 
 Só roda se o `validate` passou (`needs: validate`) **e** se o evento foi um `push` direto na branch `main` (não roda em Pull Request, só depois que o PR já foi mergeado). Etapas:
 
-1. **Deploy via SSH** (`appleboy/ssh-action@v1`) — conecta na VM de produção usando três segredos cadastrados no GitHub (`SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`) e executa:
+1. **Deploy via SSH** (`appleboy/ssh-action@v1`, `command_timeout: 20m`) — conecta na VM de produção usando três segredos cadastrados no GitHub (`SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`) e executa:
    ```
    cd ~/arte-Pedras-tur
    git pull
-   docker compose up -d --build
+   docker compose build frontend
+   docker compose build backend
+   docker compose up -d
    ```
-   Ou seja: atualiza o código na VM e reconstrói/reinicia os containers com a versão nova.
+   Ou seja: atualiza o código na VM, builda as duas imagens **em sequência** (não em paralelo — motivo na seção 7) e só então recria os containers com a versão nova.
 2. **Health check** — espera 15 segundos (tempo pros containers subirem) e faz `curl -f` no endpoint público `GET /api/public/tours`. Esse endpoint foi escolhido por ser o único endpoint de leitura real da API que não exige autenticação (`[AllowAnonymous]`, confirmado lendo `PublicToursController.cs` antes de escrever a pipeline) — se a aplicação não responder, o `curl -f` retorna erro e o job falha, sinalizando deploy quebrado.
 
 ## 3. Achados reais ao ligar os novos gates
@@ -58,7 +60,7 @@ Antes de marcar "análise estática" e "checagem de dependências" como concluí
 - **ESLint do frontend já existia no `package.json`, mas nunca tinha sido chamado pela pipeline.** Ao rodar `npm run lint` pela primeira vez, apareceram 6 erros reais: duas variáveis de `catch` nunca usadas (`Login.jsx`, `AuthContext.jsx` — corrigidas trocando por `catch {}`) e um erro estrutural mais interessante — `AuthContext.jsx` exportava, do mesmo arquivo, tanto o componente `AuthProvider` quanto o objeto `AuthContext` (`createContext()`), o que quebra o Fast Refresh do Vite (regra `react-refresh/only-export-components`). Corrigido extraindo o `createContext()` para um arquivo próprio (`AuthContextInstance.js`), com `AuthContext.jsx` e os componentes que consomem o contexto (`PrivateRoute.jsx`, `Login.jsx`) importando dele. Validado com `npm run build` depois da mudança, sem regressão.
 - **Uma regra do ESLint (`react-hooks/set-state-in-effect`) foi rebaixada de erro pra aviso, de propósito.** Ela sinaliza qualquer `setState` chamado direto dentro de um `useEffect`, incluindo o padrão idiomático "carregar dado uma vez ao montar o componente" usado em `AuthContext.jsx` (checar token salvo) e `Admin.jsx` (buscar lista de passeios). Refatorar esse padrão pra satisfazer a regra exigiria mudar o comportamento de telas que já estão funcionando em produção, sem tempo hábil de teste manual completo — decisão registrada em comentário no próprio `eslint.config.js`, não escondida.
 - **Analisadores estáticos do backend (`-warnaserror:CA`) não encontraram nada** — o código já estava limpo. Validado rodando o build com o gate ligado antes de commitar, não só assumido.
-- **Checagem de dependências vulneráveis encontrou achados reais nos dois lados** — 5 pacotes no backend (corrigidos) e 10 no frontend (aceitos como risco documentado, sem correção não-destrutiva disponível). Detalhado na seção 7.
+- **Checagem de dependências vulneráveis encontrou achados reais nos dois lados** — 5 pacotes no backend (corrigidos) e 10 no frontend (aceitos como risco documentado, sem correção não-destrutiva disponível). Detalhado na seção 8.
 
 ## 4. Testes automatizados
 
@@ -91,20 +93,28 @@ Esse desenho garante que o deploy automático só acontece depois de duas barrei
 
 ## 6. Evidência de execução real
 
-> **Nota:** a run referenciada abaixo é do primeiro merge (Pull Request #1), antes dos reforços descritos nas seções 2.1 e 6 (analisadores estáticos, checagem de dependências vulneráveis e geração de artefatos) terem sido adicionados. Ela comprova o fluxo de ponta a ponta (PR → validação → merge → deploy automático → health check). Depois que este reforço for mergeado, uma nova run vai gerar evidência específica desses passos novos — capturar print/link dela antes da entrega final.
+**Evidência principal, com todos os reforços ativos (analisadores estáticos, dependências, artefatos, timeout ajustado, build sequencial, swap):** run [`#31829610687`](https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31829610687) (commit "Builda frontend e backend em sequencia no deploy, evitando disputa de CPU na VM"):
 
-Na run [`#31692211363`](https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31692211363) (disparada pelo merge do Pull Request #1, commit `4ef355a`):
+- Job `validate`: concluído com sucesso — build com `-warnaserror:CA`, testes, `dotnet format`, checagem de dependências do backend, publish + upload de artefato, lint do frontend, `npm audit`, build do frontend e upload do artefato, tudo passando.
+- Job `deploy`: concluído com sucesso, incluindo o health check — depois de quatro rodadas de diagnóstico e correção real (ver seção 7).
+- Validação manual complementar, feita fora da pipeline logo após o deploy fechar verde: `curl` direto no frontend (`http://34.70.187.74`) e na API pública (`http://34.70.187.74:8080/api/public/tours`), ambos retornando `200`.
 
-- Job `validate`: concluído com sucesso.
-- Job `deploy`: concluído com sucesso, incluindo o health check.
-- Duração total da execução: ~10m8s (a maior parte do tempo do job `deploy` é o `docker compose up -d --build` rodando dentro da própria VM `e2-micro` — ver limitação na seção 6).
-- Validação manual complementar, feita fora da pipeline logo após o deploy fechar verde: `curl` direto no frontend (`http://34.70.187.74`) e na API pública (`http://34.70.187.74:8080/api/public/tours`), ambos retornando `200`, confirmando que o ambiente de produção realmente foi atualizado — não só que o health check interno do job passou.
+**Evidência histórica do fluxo de branch + PR** (primeiro merge, run [`#31692211363`](https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31692211363), commit `4ef355a`, antes dos reforços das seções 2.1 e 8 existirem): job `validate` e `deploy` concluídos com sucesso em ~10m8s. Uma run anterior a essa (disparada pela abertura do próprio Pull Request #1) mostra o job `validate` isolado passando em ~1m8s, sem o job `deploy` — evidenciando que a condição `if: github.event_name == 'push' && github.ref == 'refs/heads/main'` funciona como esperado (valida em PR, só publica depois do merge).
 
-Uma run anterior (disparada pela abertura do próprio Pull Request #1) mostra o job `validate` isolado passando em ~1m8s, sem o job `deploy` — evidenciando que a condição `if: github.event_name == 'push' && github.ref == 'refs/heads/main'` está funcionando como esperado (valida em PR, só publica depois do merge).
+## 7. Incidente real: deploy automático instável na primeira semana de uso
 
-## 7. Limitações conhecidas e melhorias futuras
+Depois que a pipeline foi mergeada, as primeiras execuções do job `deploy` falharam repetidamente — vale documentar a sequência completa, porque cada falha exigiu diagnóstico de uma causa diferente, e juntas formam um caso real de troubleshooting de infraestrutura sob restrição de recursos.
 
-- **Build acontece na própria VM de produção.** O `docker compose up -d --build` do job `deploy` roda dentro da instância `e2-micro` (1 vCPU compartilhada, 1 GB de RAM) — a mesma VM que já está servindo a aplicação em produção. Isso é lento (grande parte da duração da run) e disputa memória com os containers que já estão de pé durante o build. Melhoria futura: buildar a imagem no runner do GitHub Actions (que tem recursos de sobra e é descartado após o uso) e publicar num registry gratuito (ex.: GitHub Container Registry), deixando a VM apenas com `docker compose pull && docker compose up -d` — puxando a imagem já pronta, sem compilar em produção. Isso também tornaria o artefato gerado (item abaixo) uma imagem Docker versionada, em vez de apenas os arquivos de build brutos.
+1. **Falha 1 — `Run Command Timeout` aos 10 minutos.** O `command_timeout` padrão do `appleboy/ssh-action` é 10 minutos; o `docker compose up -d --build` sozinho (frontend + backend) não completava nesse tempo na `e2-micro`. Corrigido subindo o timeout para 20 minutos.
+2. **Falha 2 — `Run Command Timeout` de novo, agora aos 20 minutos.** O log mostrou o build parado no meio do `RUN dotnet restore` do backend. Causa: o `Dockerfile` do backend rodava `dotnet restore --no-cache`, que desliga o cache HTTP do NuGet e força o download completo de todas as dependências a cada build. Corrigido removendo a flag.
+3. **Falha 3 — timeout persistiu mesmo com o cache habilitado.** O log revelou que o `vite build` (frontend) e o `dotnet restore` (backend) travavam quase ao mesmo tempo, logo no início, e nunca mais avançavam. Causa: `docker compose up -d --build` builda os serviços **em paralelo** por padrão, e a `e2-micro` tem só 1 vCPU **compartilhada** — dois builds pesados de CPU disputando o mesmo núcleo travavam os dois. Corrigido separando o script de deploy em builds sequenciais (`docker compose build frontend` seguido de `docker compose build backend`, só depois `docker compose up -d`).
+4. **Falha 4 — `ssh: handshake failed: connection reset by peer`, nem chegando a rodar o script.** Diagnóstico via SSH direto na VM (`journalctl -u ssh`) revelou algo mais sério: a VM inteira estava reiniciando sozinha, repetidamente (três boots registrados em menos de 1h30). Causa raiz: `free -h` mostrou `Swap: 0B` — com ~952 MB de RAM real e nenhum swap, a pressão de memória dos builds (mesmo já sequenciais) somada aos 3 containers de produção rodando era suficiente para a instância travar por completo, e o reinício automático de instância da GCP a trazia de volta — o que explicava o padrão relatado (\"só consigo conectar por SSH logo depois de reiniciar a máquina\"). Corrigido criando 1 GB de swap em arquivo (`/swapfile`, persistido via `/etc/fstab`) — sem custo adicional, é só espaço do próprio disco da VM.
+
+Depois dessas quatro correções, a run [`#31829610687`](https://github.com/Lucas-Vieira2006/arte-Pedras-tur/actions/runs/31829610687) completou os dois jobs com sucesso, e a aplicação em produção foi validada manualmente (frontend e API pública respondendo `200`) logo em seguida.
+
+## 8. Limitações conhecidas e melhorias futuras
+
+- **Build ainda acontece na própria VM de produção.** Mesmo depois dos ajustes da seção 7 (build sequencial em vez de paralelo, cache do NuGet habilitado, 1 GB de swap), o `deploy` continua compilando as duas imagens dentro da instância `e2-micro` (1 vCPU compartilhada, 1 GB de RAM) — a mesma VM que serve a aplicação em produção. Os ajustes tornaram isso **estável** (não trava mais a VM), mas não o tornaram **rápido** — o gargalo estrutural continua o mesmo. Melhoria futura, agora com prioridade mais alta depois do incidente: buildar a imagem no runner do GitHub Actions (que tem recursos de sobra e é descartado após o uso) e publicar num registry gratuito (ex.: GitHub Container Registry), deixando a VM apenas com `docker compose pull && docker compose up -d` — puxando a imagem já pronta, sem compilar em produção. Isso também tornaria o artefato gerado (item abaixo) uma imagem Docker versionada, em vez de apenas os arquivos de build brutos.
 - **Vulnerabilidades de dependência do frontend aceitas como risco conhecido, não escondidas.** `npm audit` aponta hoje 10 vulnerabilidades no frontend (9 de severidade "high": `postcss`, `react-router`/`react-router-dom`, `vite`), nenhuma "critical". Rodamos `npm audit fix` (sem `--force`) e nenhuma delas tem correção não-destrutiva disponível — todas exigem bump de versão *major* (ex.: React Router v6/v7 para uma versão mais nova, Vite major), que são mudanças de comportamento reais e arriscadas de aplicar sem uma rodada completa de testes manuais, o que não cabe no tempo desta etapa. Decisão tomada: o gate de CI (`npm audit --audit-level=critical`) bloqueia apenas em severidade crítica (hoje, zero), mas o relatório completo continua visível no log da pipeline a cada execução — nada fica oculto. Fica registrado como prioridade técnica para a próxima etapa do projeto, fora do escopo acadêmico desta entrega.
 - **Vulnerabilidades de dependência do backend, por outro lado, já foram corrigidas.** `dotnet list package --vulnerable` encontrou 5 pacotes transitivos vulneráveis (`Microsoft.IdentityModel.JsonWebTokens`/`System.IdentityModel.Tokens.Jwt`, moderados; `Microsoft.Extensions.Caching.Memory`, `System.Net.Http` e `System.Text.RegularExpressions`, altos). Diferente do frontend, existiam versões corrigidas dentro da mesma geração major (não exigiam subir para .NET 10), então foram fixadas via `PackageReference` explícito nos `.csproj` — sem trocar target framework nem versão do ASP.NET Core. Por isso esse gate roda bloqueando em qualquer severidade, não só crítica.
 - **Sem HTTPS/domínio**, então o health check e o deploy inteiro dependem do IP estático da VM — consistente com a limitação já registrada no documento de arquitetura (seção 5, item 1).

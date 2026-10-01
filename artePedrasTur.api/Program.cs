@@ -109,10 +109,6 @@ else
     });
 }
 
-// Headers de segurança básicos. CSP só fora de Development porque o Swagger UI
-// (única página HTML servida pelo backend, e só em Development) precisa carregar
-// script/estilo inline — em produção o backend nunca serve HTML, então a política
-// restritiva é segura.
 app.Use(async (context, next) =>
 {
     context.Response.Headers.XContentTypeOptions = "nosniff";
