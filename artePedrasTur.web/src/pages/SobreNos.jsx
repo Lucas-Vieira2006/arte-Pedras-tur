@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram } from 'lucide-react';
+import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram, CircleCheck } from 'lucide-react';
 import logoOficial from '../assets/images/logo-arte-pedras.png';
 
 const SobreNos = () => {
@@ -258,15 +258,15 @@ const SobreNos = () => {
               </p>
               <ul className="list-unstyled text-secondary">
                 <li className="mb-2 d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Garantia de segurança jurídica
                 </li>
                 <li className="mb-2 d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Guias credenciados e fiscalizados
                 </li>
                 <li className="d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Compromisso com a qualidade do serviço
                 </li>
               </ul>

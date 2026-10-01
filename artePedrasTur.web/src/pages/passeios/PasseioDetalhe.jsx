@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { MapPin, CircleCheck, FileText } from 'lucide-react';
 import PasseioService from '../../services/PasseioService';
 import PasseioCarousel from '../../components/public/PasseioCarousel';
 
@@ -23,7 +24,7 @@ const PasseioDetalhe = () => {
           </div>
           <h1 className="fw-bold display-5">{passeio.nome}</h1>
           <p className="text-muted fs-5">
-            <i className="bi bi-geo-alt-fill text-danger"></i> {passeio.local}
+            <MapPin size={18} className="text-danger" /> {passeio.local}
           </p>
         </div>
 
@@ -68,7 +69,7 @@ const PasseioDetalhe = () => {
                 {passeio.oqueEncontrar.map((item, i) => (
                   <div key={i} className="col-md-6">
                     <div className="d-flex align-items-center p-3 bg-white border rounded-3 shadow-sm h-100">
-                      <i className="bi bi-check2-circle text-success fs-4 me-3"></i>
+                      <CircleCheck size={24} className="text-success me-3 flex-shrink-0" />
                       <span className="small fw-bold">{item}</span>
                     </div>
                   </div>
@@ -93,7 +94,7 @@ const PasseioDetalhe = () => {
 
         <div className="col-lg-4">
           <div className="alert alert-warning border-0 rounded-4 p-4 mb-4">
-            <h5 className="fw-bold mb-3"><i className="bi bi-file-earmark-text-fill"></i> Documentos</h5>
+            <h5 className="fw-bold mb-3"><FileText size={20} /> Documentos</h5>
             <ul className="small ps-3 mb-0">
               {passeio.documentos.map((d, i) => (
                 <li key={i} className="mb-2">{d}</li>
