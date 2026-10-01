@@ -59,6 +59,15 @@ for (const arquivo of arquivos) {
   linhas.push({ arquivo, antes, depois });
 }
 
+// O favicon era o logo em tamanho cheio (450 KB) para um ícone de 16px. Gerado
+// aqui em PNG (não WebP) porque é o formato que todo navegador aceita como
+// favicon sem ressalvas, e porque o logo tem transparência.
+const faviconOrigem = path.join(ORIGINAIS, 'logo-arte-pedras.png');
+await sharp(faviconOrigem).resize({ width: 64 }).png({ compressionLevel: 9 }).toFile('public/favicon.png');
+const favicon = (await stat('public/favicon.png')).size;
+console.log(`favicon: ${(await stat(faviconOrigem)).size / 1024} KB -> ${(favicon / 1024).toFixed(1)} KB
+`);
+
 linhas.sort((a, b) => b.antes - a.antes);
 console.log(`${linhas.length} imagens convertidas (as 5 maiores):\n`);
 for (const { arquivo, antes, depois } of linhas.slice(0, 5)) {
