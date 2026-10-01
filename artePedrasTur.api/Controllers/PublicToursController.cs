@@ -20,7 +20,11 @@ namespace Turismo.Api.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+            // Filtra inativos, igual ao GetById logo abaixo. Sem isto, um tour
+            // desativado no painel continuava aparecendo no site: este endpoint
+            // é anônimo e alimenta a listagem pública.
             var tours = _context.Tours
+                .Where(t => t.Ativo)
                 .Select(t => new
                 {
                     t.Id,

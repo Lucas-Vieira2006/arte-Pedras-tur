@@ -1,0 +1,11 @@
+# Arte Pedras Tur — https://artepedrastur.com.br
+
+User-agent: *
+Allow: /
+
+# Área administrativa: não há conteúdo público aqui, e indexar a tela de login
+# só gera resultado de busca inútil.
+Disallow: /admin
+Disallow: /login
+
+Sitemap: https://artepedrastur.com.br/sitemap.xml

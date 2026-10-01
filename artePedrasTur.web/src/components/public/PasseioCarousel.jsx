@@ -18,6 +18,16 @@ const PasseioCarousel = ({ imagens }) => {
             className="d-block w-100"
             style={{ height: '450px', objectFit: 'cover' }}
             alt={`Slide ${index}`}
+            // O Carousel do react-bootstrap monta TODOS os slides no DOM de uma
+            // vez, então sem isso a página /passeios disparava o download das 40
+            // imagens do catálogo de imediato — inclusive os slides 2 e 3 de cada
+            // card, que ninguém vê nos primeiros segundos. Só o primeiro slide
+            // precisa chegar junto com a página; o resto espera o carrossel girar.
+            loading={index === 0 ? 'eager' : 'lazy'}
+            fetchPriority={index === 0 ? 'high' : 'low'}
+            // Decodificação fora da thread principal: com 13 cards na mesma tela,
+            // decodificar em série travava a rolagem.
+            decoding="async"
           />
         </Carousel.Item>
       ))}

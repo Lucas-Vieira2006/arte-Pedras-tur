@@ -3,3 +3,7 @@ dist
 .git
 .vscode
 README.md
+
+# Originais das imagens (fonte da conversao pra WebP). Nao entram no dist nem
+# na imagem final; manter fora do contexto evita enviar ~36 MB pro daemon.
+imagens-originais

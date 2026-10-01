@@ -44,7 +44,7 @@ namespace Turismo.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<TourResponseDto>> GetById(Guid id)
         {
-            // REMOVIDO: O filtro de Ativo
+
             var tour = await _context.Tours
                 .Where(t => t.Id == id)
                 .Select(t => new TourResponseDto
@@ -80,7 +80,7 @@ namespace Turismo.Api.Controllers
                 ValorTransfer = dto.IncluiTransporte ? dto.ValorTransfer : null,
                 ImagemUrl = dto.ImagemUrl,
                 Categoria = dto.Categoria ?? "Geral"
-                // REMOVIDO: Ativo = true
+
             };
 
             _context.Tours.Add(tour);
@@ -117,7 +117,7 @@ namespace Turismo.Api.Controllers
             var tour = await _context.Tours.FindAsync(id);
             if (tour == null) return NotFound();
 
-            _context.Tours.Remove(tour); // O Hard Delete está correto aqui
+            _context.Tours.Remove(tour);
 
             await _context.SaveChangesAsync();
             return NoContent();

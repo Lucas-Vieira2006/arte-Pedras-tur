@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock, Tag } from 'lucide-react';
+import { MapPin, Clock, Tag, BusFront, SquarePen, Trash2 } from 'lucide-react';
 import TourService from '../../services/TourService';
 import '../../styles/TourCard.css';
 
@@ -51,7 +51,7 @@ const TourCardAdmin = ({ tour, aoExcluir, aoEditar }) => {
 
           {tour.incluiTransporte && (
             <span className="badge bg-success position-absolute bottom-0 end-0 m-2 shadow-sm">
-              <i className="bi bi-bus-front me-1"></i> Transfer Incluso
+              <BusFront size={14} className="me-1" /> Transfer Incluso
             </span>
           )}
         </div>
@@ -91,14 +91,14 @@ const TourCardAdmin = ({ tour, aoExcluir, aoEditar }) => {
                 className="btn btn-outline-primary flex-grow-1 fw-bold"
                 onClick={() => aoEditar(tour)}
               >
-                <i className="bi bi-pencil-square me-1"></i> Editar
+                <SquarePen size={14} className="me-1" /> Editar
               </button>
 
               <button
                 className="btn btn-outline-danger flex-grow-1 fw-bold"
                 onClick={handleDelete}
               >
-                <i className="bi bi-trash me-1"></i> Excluir
+                <Trash2 size={14} className="me-1" /> Excluir
               </button>
             </div>
 

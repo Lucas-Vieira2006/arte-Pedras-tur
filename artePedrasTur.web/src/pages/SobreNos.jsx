@@ -1,16 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram } from 'lucide-react';
+import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram, CircleCheck } from 'lucide-react';
 import logoOficial from '../assets/images/logo-arte-pedras.png';
+import useSeo from '../seo/useSeo';
 
 const SobreNos = () => {
+  useSeo({
+    titulo: 'Sobre a Arte Pedras Tur — Agência credenciada em Foz do Iguaçu',
+    descricao:
+      'Agência de turismo registrada no Ministério do Turismo (CADASTUR), com guias credenciados e fiscalizados. Conheça a história e o compromisso da Arte Pedras Tur.',
+    caminho: '/sobre',
+  });
+
   return (
     <div className="bg-light">
 
       <div 
         className="position-relative d-flex align-items-center justify-content-center text-white"
         style={{
-          backgroundImage: `url('/images/imagem-fundo-sobrenos.png')`,
+          backgroundImage: `url('/images/imagem-fundo-sobrenos.webp')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '70vh',
@@ -91,7 +99,7 @@ const SobreNos = () => {
                 }}
               ></div>
               <img 
-                src="/images/imagem-fundo-sobrenos.png"
+                src="/images/imagem-fundo-sobrenos.webp"
                 loading="lazy"
                 alt="Fundo Arte Pedras"
                 className="img-fluid rounded-4 shadow position-relative z-1 w-100"
@@ -109,7 +117,7 @@ const SobreNos = () => {
                     style={{ width: '150px', height: '150px', zIndex: 0, transform: 'translate(20%, 20%)' }}></div>
                
                <img 
-                 src="/images/artesanato.jpeg"
+                 src="/images/artesanato.webp"
                  alt="Artesanato de Pedras Preciosas" 
                  className="img-fluid rounded-5 shadow-lg position-relative z-1 w-100"
                  style={{ objectFit: 'cover', height: '450px',maxWidth: '100%', minHeight: '100px' }}
@@ -258,15 +266,15 @@ const SobreNos = () => {
               </p>
               <ul className="list-unstyled text-secondary">
                 <li className="mb-2 d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Garantia de segurança jurídica
                 </li>
                 <li className="mb-2 d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Guias credenciados e fiscalizados
                 </li>
                 <li className="d-flex align-items-center">
-                  <i className="bi bi-check-circle-fill text-success me-2"></i>
+                  <CircleCheck size={18} className="text-success me-2" />
                   Compromisso com a qualidade do serviço
                 </li>
               </ul>

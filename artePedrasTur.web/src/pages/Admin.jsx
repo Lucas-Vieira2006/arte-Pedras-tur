@@ -3,8 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import TourForm from '../components/admin/TourForm';
 import TourListAdmin from '../components/admin/TourListAdmin';
 import TourService from '../services/TourService';
+import useSeo from '../seo/useSeo';
 
 const Admin = () => {
+  useSeo({
+    titulo: 'Painel administrativo — Arte Pedras Tur',
+    descricao: 'Gestão de tours da Arte Pedras Tur.',
+    caminho: '/admin',
+    indexar: false,
+  });
+
   const [tours, setTours] = useState([]);
   const [editando, setEditando] = useState(null);
   const navigate = useNavigate(); 

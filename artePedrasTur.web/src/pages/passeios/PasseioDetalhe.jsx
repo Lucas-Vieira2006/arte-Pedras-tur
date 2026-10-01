@@ -1,7 +1,9 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { MapPin, CircleCheck, FileText } from 'lucide-react';
 import PasseioService from '../../services/PasseioService';
 import PasseioCarousel from '../../components/public/PasseioCarousel';
+import useSeo, { SITE, resumir } from '../../seo/useSeo';
 
 const PasseioDetalhe = () => {
   const { slug } = useParams();
@@ -11,6 +13,16 @@ const PasseioDetalhe = () => {
     PasseioService.getBySlug(slug).then(setPasseio);
     window.scrollTo(0, 0); 
   }, [slug]);
+
+  // Cada guia tem título e descrição próprios: é o que impede os 13 de
+  // competirem entre si na busca com o mesmo texto. A imagem de compartilhamento
+  // é a do próprio passeio, gerada por scripts/gera-seo.mjs.
+  useSeo({
+    titulo: passeio ? `${passeio.nome} — Guia completo | Arte Pedras Tur` : '',
+    descricao: passeio ? resumir(passeio.descricao) : '',
+    caminho: `/passeios/${slug}`,
+    imagem: passeio ? `${SITE}/og/${slug}.jpg` : undefined,
+  });
 
   if (!passeio) return null;
 
@@ -23,7 +35,7 @@ const PasseioDetalhe = () => {
           </div>
           <h1 className="fw-bold display-5">{passeio.nome}</h1>
           <p className="text-muted fs-5">
-            <i className="bi bi-geo-alt-fill text-danger"></i> {passeio.local}
+            <MapPin size={18} className="text-danger" /> {passeio.local}
           </p>
         </div>
 
@@ -68,7 +80,7 @@ const PasseioDetalhe = () => {
                 {passeio.oqueEncontrar.map((item, i) => (
                   <div key={i} className="col-md-6">
                     <div className="d-flex align-items-center p-3 bg-white border rounded-3 shadow-sm h-100">
-                      <i className="bi bi-check2-circle text-success fs-4 me-3"></i>
+                      <CircleCheck size={24} className="text-success me-3 flex-shrink-0" />
                       <span className="small fw-bold">{item}</span>
                     </div>
                   </div>
@@ -93,7 +105,7 @@ const PasseioDetalhe = () => {
 
         <div className="col-lg-4">
           <div className="alert alert-warning border-0 rounded-4 p-4 mb-4">
-            <h5 className="fw-bold mb-3"><i className="bi bi-file-earmark-text-fill"></i> Documentos</h5>
+            <h5 className="fw-bold mb-3"><FileText size={20} /> Documentos</h5>
             <ul className="small ps-3 mb-0">
               {passeio.documentos.map((d, i) => (
                 <li key={i} className="mb-2">{d}</li>

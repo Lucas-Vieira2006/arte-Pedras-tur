@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
 import PasseioCarousel from './PasseioCarousel';
 
 const PasseioCard = ({ passeio }) => (
@@ -14,7 +15,7 @@ const PasseioCard = ({ passeio }) => (
       </div>
 
       <p className="text-muted small mb-2">
-        <i className="bi bi-geo-alt-fill me-1"></i> {passeio.local}
+        <MapPin size={14} className="me-1" /> {passeio.local}
       </p>
       
       <p className="card-text text-muted small mb-4 line-clamp">

@@ -10,6 +10,30 @@ artepedrastur.com.br {
 		try_files {path} /index.html
 		file_server
 	}
+
+	# Compressão só nos tipos que de fato comprimem. WebP/JPEG já são
+	# comprimidos: passá-los pelo gzip gastaria CPU da e2-micro sem reduzir nada.
+	encode {
+		zstd
+		gzip
+		match {
+			header Content-Type text/*
+			header Content-Type application/json*
+			header Content-Type application/javascript*
+			header Content-Type image/svg+xml*
+		}
+	}
+
+	# Os bundles gerados pelo Vite levam hash no nome (app-a1b2c3.js), então o
+	# conteúdo nunca muda sob o mesmo nome — cache agressivo é seguro aqui.
+	@bundles path /assets/*
+	header @bundles Cache-Control "public, max-age=31536000, immutable"
+
+	# As imagens têm nome fixo, editado à mão. 30 dias evita rebaixar o nome pra
+	# cada visita sem prender o visitante numa foto antiga por um ano caso uma
+	# seja trocada mantendo o mesmo nome — por isso não leva "immutable".
+	@imagens path /images/* /og/*
+	header @imagens Cache-Control "public, max-age=2592000"
 }
 
 # www não serve conteúdo próprio: redireciona pro domínio canônico, pra não

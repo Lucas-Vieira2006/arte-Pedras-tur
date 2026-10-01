@@ -1,8 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../context/AuthContextInstance.js';
 import { useNavigate } from 'react-router-dom';
+import useSeo from '../seo/useSeo';
 
 const Login = () => {
+  useSeo({
+    titulo: 'Acesso restrito — Arte Pedras Tur',
+    descricao: 'Área administrativa do site da Arte Pedras Tur.',
+    caminho: '/login',
+    indexar: false,
+  });
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
