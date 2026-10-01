@@ -1,4 +1,6 @@
-turismo.artepedrastur.com.br {
+# Domínio principal da aplicação. O subdomínio turismo.* era usado enquanto o
+# apex estava ocupado por outro site; agora ele só redireciona pra cá.
+artepedrastur.com.br {
 	handle /api/* {
 		reverse_proxy backend:8080
 	}
@@ -10,8 +12,16 @@ turismo.artepedrastur.com.br {
 	}
 }
 
+# www não serve conteúdo próprio: redireciona pro domínio canônico, pra não
+# existir o mesmo site em dois endereços. O subdomínio turismo.* saiu daqui
+# porque não tem mais registro de DNS — sem DNS apontando pra VM, o Caddy ficaria
+# tentando (e falhando) emitir certificado pra ele indefinidamente.
+www.artepedrastur.com.br {
+	redir https://artepedrastur.com.br{uri} permanent
+}
+
 # Qualquer outro host (ex.: acesso direto pelo IP) não tem domínio pra
 # emitir certificado, então só redireciona pro domínio com HTTPS.
 :80 {
-	redir https://turismo.artepedrastur.com.br{uri} permanent
+	redir https://artepedrastur.com.br{uri} permanent
 }
