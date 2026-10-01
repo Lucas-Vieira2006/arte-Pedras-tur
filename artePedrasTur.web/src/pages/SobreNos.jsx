@@ -10,7 +10,7 @@ const SobreNos = () => {
       <div 
         className="position-relative d-flex align-items-center justify-content-center text-white"
         style={{
-          backgroundImage: `url('/images/imagem-fundo-sobrenos.png')`,
+          backgroundImage: `url('/images/imagem-fundo-sobrenos.webp')`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           height: '70vh',
@@ -91,7 +91,7 @@ const SobreNos = () => {
                 }}
               ></div>
               <img 
-                src="/images/imagem-fundo-sobrenos.png"
+                src="/images/imagem-fundo-sobrenos.webp"
                 loading="lazy"
                 alt="Fundo Arte Pedras"
                 className="img-fluid rounded-4 shadow position-relative z-1 w-100"
@@ -109,7 +109,7 @@ const SobreNos = () => {
                     style={{ width: '150px', height: '150px', zIndex: 0, transform: 'translate(20%, 20%)' }}></div>
                
                <img 
-                 src="/images/artesanato.jpeg"
+                 src="/images/artesanato.webp"
                  alt="Artesanato de Pedras Preciosas" 
                  className="img-fluid rounded-5 shadow-lg position-relative z-1 w-100"
                  style={{ objectFit: 'cover', height: '450px',maxWidth: '100%', minHeight: '100px' }}
