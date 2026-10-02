@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ShieldCheck, Heart, ArrowRight, BadgeCheck, QrCode, Gem, ShoppingBag, Gift, Instagram, CircleCheck } from 'lucide-react';
-import logoOficial from '../assets/images/logo-arte-pedras.png';
+import logoOficial from '../assets/images/logo-arte-pedras.webp';
 import useSeo from '../seo/useSeo';
 
 const SobreNos = () => {
@@ -61,8 +61,10 @@ const SobreNos = () => {
           <div className="col-lg-6 order-1 order-lg-1">
             <div className="d-flex align-items-center mb-3">
               <img 
-                src={logoOficial} 
-                alt="Logo Arte Pedras" 
+                src={logoOficial}
+                alt="Logo da Arte Pedras Tur"
+                width="70"
+                height="70"
                 className="rounded-circle shadow-sm me-3 bg-white p-1"
                 style={{ width: '70px', height: '70px', objectFit: 'contain' }} 
               />

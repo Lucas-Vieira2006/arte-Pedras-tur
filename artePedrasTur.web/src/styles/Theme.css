@@ -1,5 +1,7 @@
 /* 1. IMPORTAÇÃO DA FONTE (Essencial para o 'Inter' funcionar) */
-@import url('https://fonts.googleapis.com/css2family=Inter:wght@300;400;600;700&display=swap');
+/* A fonte Inter agora é carregada por <link> no index.html, com preconnect.
+   Como @import, ela só era descoberta depois do CSS baixar — uma requisição
+   encadeada a mais no caminho crítico. */
 
 /* 2. DEFINIÇÃO DE VARIÁVEIS */
 :root {

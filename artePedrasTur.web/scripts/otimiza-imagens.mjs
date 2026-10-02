@@ -63,6 +63,17 @@ for (const arquivo of arquivos) {
 // aqui em PNG (não WebP) porque é o formato que todo navegador aceita como
 // favicon sem ressalvas, e porque o logo tem transparência.
 const faviconOrigem = path.join(ORIGINAIS, 'logo-arte-pedras.png');
+
+// Mesmo problema do favicon, de novo: o logo de 500x500 e 440 KB era servido
+// inteiro para aparecer em 88px no menu e 70px na página Sobre Nós. 200px cobre
+// as duas em telas retina. WebP preserva a transparência do PNG.
+await sharp(faviconOrigem)
+  .resize({ width: 200 })
+  .webp({ quality: 85 })
+  .toFile('src/assets/images/logo-arte-pedras.webp');
+const logo = (await stat('src/assets/images/logo-arte-pedras.webp')).size;
+console.log(`logo:    ${((await stat(faviconOrigem)).size / 1024).toFixed(0)} KB -> ${(logo / 1024).toFixed(1)} KB`);
+
 await sharp(faviconOrigem).resize({ width: 64 }).png({ compressionLevel: 9 }).toFile('public/favicon.png');
 const favicon = (await stat('public/favicon.png')).size;
 console.log(`favicon: ${(await stat(faviconOrigem)).size / 1024} KB -> ${(favicon / 1024).toFixed(1)} KB

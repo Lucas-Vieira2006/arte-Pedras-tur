@@ -1,7 +1,7 @@
 import React from 'react'; 
 import "../../styles/TourCard.css";
 
-const TourCardPublic = ({ tour, onReservar }) => {
+const TourCardPublic = ({ tour, indice = 0, onReservar }) => {
     const precoBase = Number(tour.precoBase);
     
     // Pega o valor do transfer vindo da API
@@ -15,10 +15,20 @@ const TourCardPublic = ({ tour, onReservar }) => {
     return (
         <div className="card h-100 tour-card border-0 shadow-sm">
             <div className="position-relative">
-                <img 
-                    src={tour.imagemUrl || 'https://via.placeholder.com/300x200'} 
-                    className="card-img-top tour-img" 
-                    alt={tour.nome} 
+                {/* As 19 imagens dos tours vinham todas de uma vez, de um host
+                    externo. Só as 4 primeiras aparecem sem rolar a página; o resto
+                    espera. A primeira é o elemento de LCP da home, então vai com
+                    prioridade alta e sem lazy — o Lighthouse reprova LCP com
+                    loading="lazy". */}
+                <img
+                    src={tour.imagemUrl || 'https://via.placeholder.com/300x200'}
+                    className="card-img-top tour-img"
+                    alt={tour.nome}
+                    width="400"
+                    height="200"
+                    loading={indice < 4 ? 'eager' : 'lazy'}
+                    fetchPriority={indice === 0 ? 'high' : 'auto'}
+                    decoding="async"
                     style={{ height: '200px', objectFit: 'cover' }}
                 />
                 <span className="badge bg-primary position-absolute top-0 start-0 m-2 px-3 py-2" style={{ borderRadius: '20px' }}>
@@ -27,7 +37,10 @@ const TourCardPublic = ({ tour, onReservar }) => {
             </div>
 
             <div className="card-body d-flex flex-column">
-                <h5 className="fw-bold text-truncate">{tour.nome}</h5>
+                {/* h2, não h5: o título do card vem logo abaixo do h1 da página, e pular
+                    de h1 para h5 quebra a navegação por cabeçalhos em leitor de tela.
+                    A classe h5 mantém o tamanho visual. */}
+                <h2 className="h5 fw-bold text-truncate">{tour.nome}</h2>
                 
                 <p 
                     className="text-muted small flex-grow-1"

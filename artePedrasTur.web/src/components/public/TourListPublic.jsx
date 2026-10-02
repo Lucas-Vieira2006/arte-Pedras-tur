@@ -67,9 +67,12 @@ const TourListPublic = () => {
         <div className="container">
           
           <div className="text-center mb-5">
-            <h6 className="text-primary fw-bold text-uppercase ls-wide" style={{ letterSpacing: '2px' }}>
+            {/* Não é cabeçalho, é uma legenda decorativa acima do título. Como
+                h6 aparecia antes do h1, o leitor de tela via a página começando
+                num nível 6 e descendo para 1. */}
+            <p className="text-primary fw-bold text-uppercase ls-wide mb-1" style={{ letterSpacing: '2px' }}>
               Explorar Destinos
-            </h6>
+            </p>
             <h1 className="display-5 fw-bold mb-3">O que fazer em Foz do Iguaçu</h1>
             
             <div className="row justify-content-center mb-4">
@@ -119,10 +122,11 @@ const TourListPublic = () => {
           {/* === GRID DE CARDS === */}
           <div className="row g-4 fade-in">
             {tours.length > 0 ? (
-              tours.map((item) => (
+              tours.map((item, indice) => (
                 <div className="col-12 col-sm-6 col-lg-4 col-xl-3" key={item.id}>
                   <TourCardPublic 
                     tour={item} 
+                    indice={indice}
                     onReservar={() => setTourSelecionado(item)} 
                   />
                 </div>
