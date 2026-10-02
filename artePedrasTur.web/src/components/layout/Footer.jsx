@@ -11,7 +11,7 @@ const Footer = () => {
           
         
           <div className="col-lg-4 col-md-6">
-            <h5 className="fw-bold mb-3" style={{ color: 'var(--accent)' }}>ARTE PEDRAS TUR</h5>
+            <h3 className="h5 fw-bold mb-3" style={{ color: 'var(--accent)' }}>ARTE PEDRAS TUR</h3>
             <p className="small opacity-75" style={{ lineHeight: '1.6' }}>
               Sua agência de turismo em Foz do Iguaçu. 
               Experiências inesquecíveis nas Cataratas e região com conforto, segurança e guias credenciados.
@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
 
           <div className="col-lg-2 col-md-6">
-            <h5 className="fw-bold mb-3 text-white">Navegação</h5>
+            <h3 className="h5 fw-bold mb-3 text-white">Navegação</h3>
             <ul className="list-unstyled small">
               <li className="mb-2">
                 <Link to="/" className="text-decoration-none text-white-50 hover-white transition-all">Início</Link>
@@ -40,7 +40,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="col-lg-4 col-md-6">
-            <h5 className="fw-bold mb-3 text-white">Fale Conosco</h5>
+            <h3 className="h5 fw-bold mb-3 text-white">Fale Conosco</h3>
             <ul className="list-unstyled small opacity-75">
               <li className="mb-3 d-flex gap-2">
                 <MapPin size={18} className="text-warning flex-shrink-0" aria-hidden="true" focusable="false" />
@@ -78,7 +78,7 @@ const Footer = () => {
               </li>
             </ul>
             <div className="mt-4">
-               <h6 className="fw-bold mb-3 small text-uppercase text-white">Acompanhe nas redes</h6>
+               <h3 className="h6 fw-bold mb-3 small text-uppercase text-white">Acompanhe nas redes</h3>
                <div className="d-flex gap-3">
                   <a href="https://www.instagram.com/artepedrastur/" target="_blank" rel="noopener noreferrer"
                      className="btn btn-outline-light btn-sm rounded-circle d-flex align-items-center justify-content-center" 
@@ -94,12 +94,14 @@ const Footer = () => {
         <hr className="my-4 border-secondary opacity-25" />
         
         <div className="row align-items-center">
-            <div className="col-md-6 text-center text-md-start small opacity-50">
+            <div className="col-md-6 text-center text-md-start small opacity-75">
                 <p className="mb-0">&copy; {anoAtual} Arte Pedras Tur. Todos os direitos reservados
                     <Link to="/login" className="secret-login-link">.</Link>
                 </p>
             </div>
-            <div className="col-md-6 text-center text-md-end small opacity-25 mt-2 mt-md-0">
+            {/* opacity-25 dava contraste de 2,16:1 sobre o #001d3d, abaixo do mínimo
+                de 4,5:1 exigido para texto. Com 75% fica em 9,39:1. */}
+            <div className="col-md-6 text-center text-md-end small opacity-75 mt-2 mt-md-0">
                 <p className="mb-0">Desenvolvido por Lucas Vieira</p>
             </div>
         </div>

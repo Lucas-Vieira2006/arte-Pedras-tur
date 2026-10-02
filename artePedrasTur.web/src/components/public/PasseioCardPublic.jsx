@@ -8,7 +8,7 @@ const PasseioCard = ({ passeio }) => (
 
     <div className="card-body d-flex flex-column p-4">
       <div className="mb-2">
-        <h4 className="fw-bold mb-1 text-dark">{passeio.nome}</h4>
+        <h2 className="h4 fw-bold mb-1 text-dark">{passeio.nome}</h2>
         <span className="badge bg-light text-primary border border-primary-subtle">
           {passeio.categoria || 'Ponto Turístico'}
         </span>

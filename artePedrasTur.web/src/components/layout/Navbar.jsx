@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { MessageCircle, Menu, X } from 'lucide-react';
-import logoArtePedras from '../../assets/images/logo-arte-pedras.png';
+import logoArtePedras from '../../assets/images/logo-arte-pedras.webp';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,9 +30,13 @@ const Navbar = () => {
           to="/"
           onClick={closeMenu}
         >
-          <img 
-            src={logoArtePedras} 
-            alt="Arte Pedras Tur" 
+          {/* alt vazio de proposito: o nome da marca vem escrito no <span> ao
+              lado, e repetir no alt faz o leitor de tela anunciar duas vezes.
+              width/height explicitos evitam o salto de layout antes de carregar. */}
+          <img
+            src={logoArtePedras}
+            alt=""
+            width="50"
             height="50"
             className="me-2"
           />
@@ -44,6 +48,7 @@ const Navbar = () => {
           type="button" 
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
+          aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
           style={{ boxShadow: 'none' }}
         >
           {isOpen ? <X size={28} /> : <Menu size={28} />}

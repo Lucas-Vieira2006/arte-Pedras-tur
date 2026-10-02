@@ -8,6 +8,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#0a3d62" />
 
+    <!-- Abrir a conexão com estas origens antes de precisar delas: o Lighthouse
+         mediu 300 ms de ganho de LCP só no i.ibb.co, que hospeda as imagens dos
+         tours cadastrados pelo painel. -->
+    <link rel="preconnect" href="https://i.ibb.co" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Estava como @import no Theme.css e com a URL errada ("css2family" em vez
+         de "css2?family"), o que devolvia 404 em HTML: o navegador recusava a
+         folha por MIME type e ainda bloqueava a renderização por 780 ms. -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    />
+
     <!-- Valores padrão. Cada rota sobrescreve os seus via o hook useSeo
          (src/seo/useSeo.js) — isto aqui é o que vale antes do JavaScript rodar
          e para qualquer rota que não defina os próprios. -->
